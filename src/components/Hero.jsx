@@ -7,10 +7,10 @@ const Hero = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
                 <motion.div
                     className="md:w-1/2 text-center md:text-left"
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={{ opacity: 0, x: { base: -20, md: -50 } }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.8 }}
+                    viewport={{ once: false, amount: { base: 0.1, md: 0.5 } }}
+                    transition={{ duration: 0.4 }}
                 >
                     <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
                         <span className="block">Hi, I'm <span className="text-primary">Syed Firas</span></span>
@@ -34,10 +34,10 @@ const Hero = () => {
                 </motion.div>
                 <motion.div
                     className="md:w-1/2 mt-10 md:mt-0 flex justify-center"
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: { base: 20, md: 50 } }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.8 }}
+                    viewport={{ once: false, amount: { base: 0.1, md: 0.5 } }}
+                    transition={{ duration: 0.4 }}
                 >
                     <div className=" w-64 h-64 md:w-80 md:h-80 bg-linear-to-tr from-primary to-secondary rounded-full opacity-20 blur-3xl absolute animate-pulse"></div>
                     <img

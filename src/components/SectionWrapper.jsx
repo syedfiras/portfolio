@@ -8,10 +8,10 @@ const SectionWrapper = ({ children, id, className }) => {
             className={className}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: false, amount: 0.25 }}
+            viewport={{ once: false, amount: { base: 0.1, md: 0.25 } }}
             variants={{
-                hidden: { opacity: 0, y: 25 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" } }
+                hidden: { opacity: 0, y: { base: 10, md: 25 } },
+                show: { opacity: 1, y: 0, transition: { duration: 0.15, ease: "easeOut" } }
             }}
         >
             {children}

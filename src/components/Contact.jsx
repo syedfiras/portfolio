@@ -18,10 +18,10 @@ const Contact = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-lg mx-auto md:max-w-none md:grid md:grid-cols-2 md:gap-8">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: { base: -20, md: -50 } }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: false, amount: 0.5 }}
-                        transition={{ duration: 0.5 }}
+                        viewport={{ once: false, amount: { base: 0.1, md: 0.5 } }}
+                        transition={{ duration: 0.3 }}
                     >
                         <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
                             Get in Touch
@@ -74,10 +74,10 @@ const Contact = () => {
                     </motion.div>
                     <motion.div
                         className="mt-12 sm:mt-16 md:mt-0"
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: { base: 20, md: 50 } }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: false, amount: 0.5 }}
-                        transition={{ duration: 0.5 }}
+                        viewport={{ once: false, amount: { base: 0.1, md: 0.5 } }}
+                        transition={{ duration: 0.3 }}
                     >
                         <form action="https://formsubmit.co/syedfiras06@gmail.com" method="POST" className="grid grid-cols-1 gap-y-6">
                             <input type="hidden" name="_captcha" value="false" />

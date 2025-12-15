@@ -39,15 +39,15 @@ const Skills = () => {
                     }}
                     initial="hidden"
                     whileInView="show"
-                    viewport={{ once: false, amount: 0.25 }}
+                    viewport={{ once: false, amount: { base: 0.1, md: 0.25 } }}
                 >
                     {skills.map((skill) => (
                         <motion.div
                             key={skill.name}
                             className="bg-slate-800 rounded-lg p-6 text-center hover:bg-slate-700 transition-colors shadow-lg border border-slate-700"
                             variants={{
-                                hidden: { opacity: 0, y: 20 },
-                                show: { opacity: 1, y: 0 }
+                                hidden: { opacity: 0, y: { base: 10, md: 20 } },
+                                show: { opacity: 1, y: 0, transition: { duration: 0.15 } }
                             }}
                         >
                             <div className="text-4xl mb-4">{skill.icon}</div>

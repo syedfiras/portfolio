@@ -75,15 +75,15 @@ const Projects = () => {
                     }}
                     initial="hidden"
                     whileInView="show"
-                    viewport={{ once: false, amount: 0.25 }}
+                    viewport={{ once: false, amount: { base: 0.1, md: 0.25 } }}
                 >
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
                             className="flex flex-col rounded-lg shadow-lg overflow-hidden bg-slate-800 border border-slate-700"
                             variants={{
-                                hidden: { opacity: 0, y: 30 },
-                                show: { opacity: 1, y: 0 }
+                                hidden: { opacity: 0, y: { base: 15, md: 30 } },
+                                show: { opacity: 1, y: 0, transition: { duration: 0.2 } }
                             }}
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.3 }}

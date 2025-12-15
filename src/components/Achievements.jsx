@@ -98,8 +98,8 @@ const Achievements = () => {
                                 key={index}
                                 className="bg-slate-800 rounded-lg shadow-lg border border-slate-700 hover:border-primary transition-colors overflow-hidden"
                                 variants={{
-                                    hidden: { opacity: 0, y: 30 },
-                                    show: { opacity: 1, y: 0 }
+                                    hidden: { opacity: 0, y: { base: 15, md: 30 } },
+                                    show: { opacity: 1, y: 0, transition: { duration: 0.2 } }
                                 }}
                                 whileHover={{ scale: 1.03 }}
                             >
@@ -139,8 +139,8 @@ const Achievements = () => {
                                 key={index}
                                 className="bg-slate-800 rounded-lg shadow-lg border border-slate-700 hover:border-primary transition-colors overflow-hidden"
                                 variants={{
-                                    hidden: { opacity: 0, y: 30 },
-                                    show: { opacity: 1, y: 0 }
+                                    hidden: { opacity: 0, y: { base: 15, md: 30 } },
+                                    show: { opacity: 1, y: 0, transition: { duration: 0.2 } }
                                 }}
                                 whileHover={{ scale: 1.03 }}
                             >
