@@ -39,7 +39,7 @@ const Hero = () => {
                     viewport={{ once: false, amount: 0.5 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-tr from-primary to-secondary rounded-full opacity-20 blur-3xl absolute animate-pulse"></div>
+                    <div className=" w-64 h-64 md:w-80 md:h-80 bg-linear-to-tr from-primary to-secondary rounded-full opacity-20 blur-3xl absolute animate-pulse"></div>
                     <img
                         src="/profile.jpg"
                         alt="Syed Firas"

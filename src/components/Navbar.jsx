@@ -13,7 +13,7 @@ const Navbar = () => {
                                 <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                                 </svg>
-                                <span className="hidden md:block">DevPortfolio</span>
+                                <span >SyedFiras Portfolio</span>
                             </span>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ const Navbar = () => {
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             type="button"
-                            className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                            className="inline-flex items-center justify-center p-15 rounded-md text-white hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
                             aria-controls="mobile-menu"
                             aria-expanded={isOpen}
                         >

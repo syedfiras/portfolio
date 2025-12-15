@@ -1,13 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionWrapper from './SectionWrapper';
-
+import creatorflowImg from "../assets/cfai.png";
+import sahaya from "../assets/sahaya.jpeg";
+import expen from "../assets/expence.png";
 const projects = [
     {
         title: 'SAHAYA - Women Safety App',
         description: 'A dedicated safety application designed to help women in distress. Features include real-time location sharing, emergency alerts, and quick access to helplines.',
         tech: ['React Native', 'Geolocation', 'Emergency API'],
-        image: 'https://images.unsplash.com/photo-1590053163982-f53856956639?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        image: sahaya,
         link: 'https://expo.dev/artifacts/eas/skvxeLDnrLZTLX84jWSTax.apk'
     },
     {
@@ -17,20 +19,34 @@ const projects = [
         image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         link: 'https://gymnetsolutions.netlify.app/login'
     },
+    // {
+    //     title: 'School Management Website',
+    //     description: 'A comprehensive platform for managing school operations. Built with Ionic and Angular for the frontend and Django for a robust backend.',
+    //     tech: ['Ionic', 'Angular', 'Django'],
+    //     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    //     link: '#'
+    // },
     {
-        title: 'Portfolio Website',
-        description: 'A personal portfolio website to showcase my skills and projects. Built with React, Vite, and Tailwind CSS for a modern and responsive design.',
-        tech: ['React', 'Vite', 'Tailwind CSS'],
-        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        link: '#'
+        title: 'TODO-list App',
+        description: 'A dedicated TODo-list application designed to help list your tasks.',
+        tech: ['React Native', 'Node.js', 'Mongodb'],
+        image: '',
+        link: 'https://expo.dev/artifacts/eas/pJ5sdF44qNbrn2Aw74eZx4.apk'
     },
-    {
-        title: 'School Management Website',
-        description: 'A comprehensive platform for managing school operations. Built with Ionic and Angular for the frontend and Django for a robust backend.',
-        tech: ['Ionic', 'Angular', 'Django'],
-        image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        link: '#'
-    }
+     {
+        title: 'ExpensesTracker App',
+        description: 'A Application thats trackers your Expense ',
+        tech: ['React Native'],
+        image: expen,
+        link: ''
+    },
+     {
+        title: 'CreatorFlow',
+        description: 'CreatorFlow AI helps creators beat creative blocks with instant scripts, smart analysis, and scroll-stopping hooks.',
+        tech: ['React','Node.js','Supabase'],
+        image: creatorflowImg,
+        link: 'https://cfai.lovable.app'
+    },
 ];
 
 const Projects = () => {

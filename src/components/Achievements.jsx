@@ -50,6 +50,14 @@ const hackathons = [
         date: '2025',
         achievement: 'Top 10',
         image: '/innovex-cert.jpg'
+    },
+    {
+        title: 'AI HACKDAY BANGALURU',
+        role: 'Full-Stack',
+        description: 'Developed a website to help Content Creators using AI',
+        date: '2025',
+        achievement: 'Participation',
+        image: '/bang.jpg'
     }
 ];
 
