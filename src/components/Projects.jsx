@@ -17,7 +17,7 @@ const projects = [
         description: 'A comprehensive solution for managing gym memberships, tracking workouts, and scheduling classes. Built with Ionic and Angular for cross-platform performance.',
         tech: ['Ionic', 'Angular', 'TypeScript'],
         image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        link: 'https://gymnetsolutions.netlify.app/login'
+        link: 'https://gymnetsolutions.netlify.app'
     },
     // {
     //     title: 'School Management Website',
