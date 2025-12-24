@@ -27,12 +27,41 @@ const Navbar = () => {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    // Close mobile menu first
     setIsOpen(false);
+
     const targetId = href.substring(1);
     const element = document.getElementById(targetId);
+
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveSection(targetId);
+      // Small delay to allow menu to close on mobile
+      setTimeout(() => {
+        // Get navbar height for offset
+        const navbarHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - navbarHeight;
+
+        // Try smooth scroll with fallback for older browsers
+        try {
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        } catch (error) {
+          // Fallback for browsers that don't support smooth scrolling
+          window.scrollTo(0, offsetPosition);
+        }
+
+        // Update active section
+        setActiveSection(targetId);
+
+        // Update URL hash without jumping
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', href);
+        }
+      }, 100);
     }
   };
 
