@@ -9,7 +9,7 @@ const mainProjects = [
         title: 'Gym Management App',
         description: 'A comprehensive solution for managing gym memberships, tracking workouts, and scheduling classes.',
         fullDescription: 'A full-featured gym management system that streamlines operations for gym owners and trainers. Features include member registration, attendance tracking, workout plan creation, class scheduling, payment processing, and detailed analytics.',
-        tech: ['Ionic', 'Angular', 'TypeScript', 'MongoDB'],
+        tech: ['Ionic', 'Angular', 'TypeScript', 'Supabase'],
         image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         link: 'https://gymnetsolutions.netlify.app',
         color: 'bg-blue-50 text-blue-600 border-blue-100',
