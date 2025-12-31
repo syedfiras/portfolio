@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
 
 @theme {
   /* Light theme colors - soft pastels */
@@ -8,18 +10,18 @@
   --color-secondary: #06b6d4;
   /* Cyan 500 */
   --color-secondary-light: #22d3ee;
-  
+
   /* Make colors available to Tailwind */
   --color-primary-50: #f5f3ff;
   --color-primary-500: #8b5cf6;
   --color-primary-600: #7c3aed;
   --color-primary-700: #6d28d9;
-  
+
   --color-secondary-50: #ecfeff;
   --color-secondary-500: #06b6d4;
   --color-secondary-600: #0891b2;
   --color-secondary-700: #0e7490;
-  
+
   /* Background colors - warm, off-white pastels */
   --color-bg-main: #faf9f7;
   /* Warm cream */
@@ -29,7 +31,7 @@
   /* Off-white */
   --color-bg-subtle: #f9f8f6;
   /* Soft gray-beige */
-  
+
   /* Text colors */
   --color-text-primary: #1f2937;
   /* Dark gray */
@@ -37,11 +39,11 @@
   /* Medium gray */
   --color-text-muted: #6b7280;
   /* Light gray */
-  
+
   /* Glass effect - subtle */
   --color-glass: rgba(255, 255, 255, 0.7);
   --color-glass-border: rgba(0, 0, 0, 0.06);
-  
+
   /* Shadows - soft */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -52,9 +54,12 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-10px);
     }
@@ -65,6 +70,7 @@
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -106,13 +112,25 @@ body {
   background: var(--color-bg-alt);
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #000000;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #333333;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555555;
 }
 
 /* Utilities for subtle glassmorphism */
@@ -130,6 +148,7 @@ body {
   background-clip: text;
   color: transparent;
 }
+
 html,
 body,
 #root {

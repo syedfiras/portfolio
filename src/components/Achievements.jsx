@@ -86,7 +86,7 @@ const Achievements = () => {
     const [selectedEvent, setSelectedEvent] = useState(null);
 
     return (
-        <section id="achievements" className="py-24 bg-white">
+        <section id="achievements" className="py-24 bg-white dark:bg-black transition-colors duration-300">
             <div className="w-full px-6 sm:px-12 lg:px-16">
 
                 {/* Header Section */}
@@ -94,21 +94,21 @@ const Achievements = () => {
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4 block"
+                        className="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
                     >
                         Success & Learning
                     </motion.span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                         Selected Achievements
                     </h2>
-                    <div className="w-16 h-1 bg-black mx-auto mt-6 rounded-full" />
+                    <div className="w-16 h-1 bg-black dark:bg-white mx-auto mt-6 rounded-full" />
                 </div>
 
                 {/* Internships & Certifications Section */}
                 <div className="max-w-7xl mx-auto mb-24">
                     <div className="flex items-center gap-4 mb-10">
-                        <h3 className="text-lg font-bold text-gray-900">Experience & Growth</h3>
-                        <div className="h-[1px] flex-1 bg-gray-100 hidden sm:block" />
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Experience & Growth</h3>
+                        <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 hidden sm:block" />
                     </div>
 
                     {/* Horizontal Scroll Container */}
@@ -121,27 +121,27 @@ const Achievements = () => {
                                 viewport={{ once: false }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(intern)}
-                                className="group shrink-0 w-[85vw] sm:w-[400px] snap-center cursor-pointer bg-[#FAFAFA] rounded-[2.5rem] overflow-hidden border border-gray-100 transition-all duration-500 hover:shadow-2xl hover:bg-white flex flex-col"
+                                className="group shrink-0 w-[85vw] sm:w-[400px] snap-center cursor-pointer bg-[#FAFAFA] dark:bg-[#111] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 transition-all duration-500 hover:shadow-2xl hover:bg-white dark:hover:bg-[#161616] flex flex-col"
                             >
                                 <div className="p-8 sm:p-10 flex flex-col flex-1">
                                     <div className="flex justify-between items-start mb-6">
                                         <div>
-                                            <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-gray-100 border border-gray-200 mb-3 inline-block">
+                                            <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 dark:text-gray-300 mb-3 inline-block">
                                                 {intern.date}
                                             </span>
-                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{intern.company}</p>
+                                            <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{intern.company}</p>
                                         </div>
                                         <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest ${intern.color} border`}>
                                             {intern.achievement}
                                         </span>
                                     </div>
-                                    <h4 className="text-xl font-black text-gray-900 mb-4 tracking-tight leading-tight group-hover:text-primary transition-colors">
+                                    <h4 className="text-xl font-black text-gray-900 dark:text-white mb-4 tracking-tight leading-tight group-hover:text-primary transition-colors">
                                         {intern.title}
                                     </h4>
-                                    <p className="text-gray-500 text-xs font-medium leading-relaxed mb-8 line-clamp-3">
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs font-medium leading-relaxed mb-8 line-clamp-3">
                                         {intern.description}
                                     </p>
-                                    <button className="mt-auto text-xs font-black uppercase tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all w-max">
+                                    <button className="mt-auto text-xs font-black uppercase tracking-widest text-black dark:text-white border-b-2 border-transparent group-hover:border-black dark:group-hover:border-white transition-all w-max">
                                         View details
                                     </button>
                                 </div>
@@ -153,8 +153,8 @@ const Achievements = () => {
                 {/* Hackathons Section */}
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center gap-4 mb-10">
-                        <h3 className="text-lg font-bold text-gray-900">Events & Innovation</h3>
-                        <div className="h-[1px] flex-1 bg-gray-100 hidden sm:block" />
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Events & Innovation</h3>
+                        <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 hidden sm:block" />
                     </div>
 
                     {/* Horizontal Scroll Container */}
@@ -167,9 +167,9 @@ const Achievements = () => {
                                 viewport={{ once: false }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(hack)}
-                                className="group shrink-0 w-[80vw] sm:w-[350px] snap-center cursor-pointer bg-white rounded-[2rem] p-8 border border-gray-100 hover:border-black transition-all duration-500 flex flex-col items-center text-center hover:shadow-xl"
+                                className="group shrink-0 w-[80vw] sm:w-[350px] snap-center cursor-pointer bg-white dark:bg-[#111] rounded-[2rem] p-8 border border-gray-100 dark:border-gray-800 hover:border-black dark:hover:border-white transition-all duration-500 flex flex-col items-center text-center hover:shadow-xl"
                             >
-                                <div className="w-16 h-16 rounded-[1.5rem] bg-black flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
+                                <div className="w-16 h-16 rounded-[1.5rem] bg-black dark:bg-white flex items-center justify-center text-white dark:text-black mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
                                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
                                     </svg>
@@ -177,10 +177,10 @@ const Achievements = () => {
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${hack.color} border mb-4`}>
                                     {hack.achievement}
                                 </span>
-                                <h4 className="text-lg font-bold text-gray-900 mb-2">{hack.title}</h4>
-                                <p className="text-gray-400 text-sm font-medium mb-6">{hack.role}</p>
+                                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{hack.title}</h4>
+                                <p className="text-gray-400 dark:text-gray-500 text-sm font-medium mb-6">{hack.role}</p>
 
-                                <button className="mt-auto text-xs font-black uppercase tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all">
+                                <button className="mt-auto text-xs font-black uppercase tracking-widest text-black dark:text-white border-b-2 border-transparent group-hover:border-black dark:group-hover:border-white transition-all">
                                     View details
                                 </button>
                             </motion.div>
@@ -204,11 +204,11 @@ const Achievements = () => {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white rounded-[2.5rem] max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-[0_48px_80px_-20px_rgba(0,0,0,0.1)] flex flex-col md:flex-row relative border border-gray-100"
+                            className="bg-white dark:bg-[#111] rounded-[2.5rem] max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-[0_48px_80px_-20px_rgba(0,0,0,0.1)] flex flex-col md:flex-row relative border border-gray-100 dark:border-gray-800"
                         >
                             <button
                                 onClick={() => setSelectedEvent(null)}
-                                className="absolute top-8 right-8 p-3 bg-gray-50 rounded-full hover:bg-black hover:text-white transition-all duration-300 z-10"
+                                className="absolute top-8 right-8 p-3 bg-gray-50 dark:bg-black/50 dark:text-white rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 z-10 backdrop-blur-sm"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -216,7 +216,7 @@ const Achievements = () => {
                             </button>
 
                             {/* Modal Left: Dynamic Visual */}
-                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-[#FAFAFA]">
+                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-[#FAFAFA] dark:bg-[#0a0a0a]">
                                 <img
                                     src={selectedEvent.image}
                                     alt={selectedEvent.title}
@@ -231,7 +231,7 @@ const Achievements = () => {
                                     {selectedEvent.achievement}
                                 </span>
 
-                                <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter mb-4 leading-none">
+                                <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 leading-none">
                                     {selectedEvent.title}
                                 </h2>
 
@@ -243,16 +243,16 @@ const Achievements = () => {
 
                                 <div className="space-y-10">
                                     <div>
-                                        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4 border-l-4 border-black pl-4">Perspective</h3>
-                                        <p className="text-gray-500 text-lg leading-relaxed font-medium">
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white mb-4 border-l-4 border-black dark:border-white pl-4">Perspective</h3>
+                                        <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed font-medium">
                                             {selectedEvent.description}
                                         </p>
                                     </div>
 
                                     {selectedEvent.details && (
                                         <div>
-                                            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4 border-l-4 border-black pl-4">Core Contribution</h3>
-                                            <p className="text-gray-500 text-lg leading-relaxed font-medium italic">
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white mb-4 border-l-4 border-black dark:border-white pl-4">Core Contribution</h3>
+                                            <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed font-medium italic">
                                                 "{selectedEvent.details}"
                                             </p>
                                         </div>
@@ -260,7 +260,7 @@ const Achievements = () => {
 
                                     <button
                                         onClick={() => setSelectedEvent(null)}
-                                        className="w-full py-5 bg-black text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-gray-800 transition-all duration-300 shadow-xl shadow-black/10"
+                                        className="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 shadow-xl shadow-black/10 dark:shadow-white/5"
                                     >
                                         Dismiss View
                                     </button>

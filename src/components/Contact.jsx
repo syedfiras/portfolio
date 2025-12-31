@@ -60,24 +60,24 @@ const Contact = () => {
     ];
 
     return (
-        <section id="contact" className="py-24 bg-[#FAFAFA]">
+        <section id="contact" className="py-8 bg-[#FAFAFA] dark:bg-[#0a0a0a] transition-colors duration-300">
             <div className="w-full px-6 sm:px-12 lg:px-16">
 
                 {/* Header Section */}
-                <div className="max-w-7xl mx-auto mb-20 text-center md:text-left">
+                <div className="max-w-7xl mx-auto mb-8 text-center md:text-left">
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4 block"
+                        className="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
                     >
                         Communication
                     </motion.span>
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tighter leading-none">
-                        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-400 font-black">Connect</span>
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+                        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-400 dark:from-white dark:to-gray-500 font-black">Connect</span>
                     </h2>
                 </div>
 
-                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
+                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
 
                     {/* Left: Contact Information */}
                     <div className="lg:w-1/3 space-y-6">
@@ -91,19 +91,19 @@ const Contact = () => {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: false }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group block bg-white rounded-[2rem] p-8 border border-gray-100 hover:border-black transition-all duration-500 hover:shadow-2xl"
+                                className="group block bg-white dark:bg-[#111] rounded-2xl p-4 border border-gray-100 dark:border-gray-800 hover:border-black dark:hover:border-white transition-all duration-500 hover:shadow-lg"
                             >
                                 <div className="flex items-center gap-6">
-                                    <div className="w-14 h-14 rounded-2xl bg-black text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
-                                        {method.icon}
+                                    <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
+                                        {React.cloneElement(method.icon, { className: "w-5 h-5" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{method.title}</p>
-                                        <p className="text-lg font-bold text-gray-900 truncate tracking-tight">{method.value}</p>
-                                        <p className="text-xs font-medium text-gray-400 mt-1">{method.label}</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">{method.title}</p>
+                                        <p className="text-base font-bold text-gray-900 dark:text-white truncate tracking-tight">{method.value}</p>
+                                        <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mt-1">{method.label}</p>
                                     </div>
                                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                         </svg>
                                     </div>
@@ -118,15 +118,15 @@ const Contact = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="lg:w-2/3 bg-white rounded-[3rem] p-10 md:p-16 border border-gray-100 shadow-2xl relative overflow-hidden"
+                        className="lg:w-2/3 bg-white dark:bg-[#111] rounded-[2rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-xl relative overflow-hidden"
                     >
                         {/* Decorative background element */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-bl-[100%] pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 dark:bg-white/5 rounded-bl-[100%] pointer-events-none" />
 
                         <div className="relative z-10">
-                            <h3 className="text-xl font-black text-gray-900 tracking-tighter mb-10">Send a Message</h3>
+                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tighter mb-6">Send a Message</h3>
 
-                            <form action="https://formsubmit.co/syedfiras06@gmail.com" method="POST" className="space-y-8">
+                            <form action="https://formsubmit.co/syedfiras06@gmail.com" method="POST" className="space-y-6">
                                 <input type="hidden" name="_captcha" value="false" />
                                 <input type="hidden" name="_subject" value="New Portfolio Inquiry!" />
 
@@ -138,7 +138,7 @@ const Contact = () => {
                                             name="name"
                                             required
                                             placeholder="Your Name"
-                                            className="w-full px-8 py-5 bg-[#FAFAFA] rounded-[1.5rem] text-gray-900 font-bold border-2 border-transparent focus:border-black focus:bg-white transition-all duration-300 outline-none"
+                                            className="w-full px-6 py-3 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none"
                                         />
                                     </div>
 
@@ -149,7 +149,7 @@ const Contact = () => {
                                             name="email"
                                             required
                                             placeholder="hello@example.com"
-                                            className="w-full px-8 py-5 bg-[#FAFAFA] rounded-[1.5rem] text-gray-900 font-bold border-2 border-transparent focus:border-black focus:bg-white transition-all duration-300 outline-none"
+                                            className="w-full px-6 py-3 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none"
                                         />
                                     </div>
                                 </div>
@@ -158,10 +158,10 @@ const Contact = () => {
                                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-4">Project Scope</label>
                                     <textarea
                                         name="message"
-                                        rows="5"
+                                        rows="4"
                                         required
                                         placeholder="Describe your vision or inquiry..."
-                                        className="w-full px-8 py-6 bg-[#FAFAFA] rounded-[2rem] text-gray-900 font-bold border-2 border-transparent focus:border-black focus:bg-white transition-all duration-300 outline-none resize-none"
+                                        className="w-full px-6 py-4 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-2xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none resize-none"
                                     ></textarea>
                                 </div>
 
@@ -169,7 +169,7 @@ const Contact = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    className="w-full py-6 bg-black text-white rounded-[1.5rem] font-black text-sm uppercase tracking-[0.2em] shadow-xl shadow-black/10 hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-4"
+                                    className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-black/10 dark:shadow-white/5 hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-4"
                                 >
                                     Transmit Message
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

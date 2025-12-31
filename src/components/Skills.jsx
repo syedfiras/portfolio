@@ -21,22 +21,22 @@ const skills = [
 
 const Skills = () => {
     return (
-        <section id="skills" className="py-24 bg-white">
+        <section id="skills" className="py-16 bg-white dark:bg-black transition-colors duration-300">
             <div className="w-full px-6 sm:px-12 lg:px-16">
 
                 {/* Header Section */}
-                <div className="max-w-7xl mx-auto mb-20 text-center">
+                <div className="max-w-7xl mx-auto mb-12 text-center">
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        className="text-sm font-bold tracking-widest text-gray-400 uppercase mb-4 block"
+                        className="text-sm font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
                     >
                         Foundation
                     </motion.span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                         Technical Stack
                     </h2>
-                    <div className="w-16 h-1 bg-black mx-auto mt-6 rounded-full" />
+                    <div className="w-16 h-1 bg-black dark:bg-white mx-auto mt-6 rounded-full" />
                 </div>
 
                 {/* Skills Container */}
@@ -68,7 +68,7 @@ const Skills = () => {
                                     borderColor: '#000000'
                                 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                className="px-6 py-3 rounded-[1.2rem] bg-[#FAFAFA] text-gray-900 border-2 border-gray-50 font-bold text-xs transition-all duration-300 cursor-default shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] flex items-center gap-2 group"
+                                className="px-6 py-3 rounded-[1.2rem] bg-[#FAFAFA] dark:bg-[#111] text-gray-900 dark:text-gray-200 border-2 border-gray-50 dark:border-gray-800 font-bold text-xs transition-all duration-300 cursor-default shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] flex items-center gap-2 group"
                             >
                                 <skill.icon className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
                                 {skill.name}

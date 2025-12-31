@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Achievements from './components/Achievements';
@@ -43,13 +44,23 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  // Initialize Theme
+  React.useEffect(() => {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, []);
+
   return (
     <ErrorBoundary>
       <LoadingScreen />
-      <div className="min-h-screen text-gray-900 selection:bg-primary/20 selection:text-gray-900">
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white selection:bg-black/20 dark:selection:bg-white/20 selection:text-black dark:selection:text-white transition-colors duration-300">
         <Navbar />
         <main>
           <Hero />
+          <About />
           <Skills />
           <Projects />
           <Achievements />
