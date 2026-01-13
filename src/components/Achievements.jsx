@@ -94,6 +94,7 @@ const Achievements = () => {
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
                         className="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
                     >
                         Success & Learning

@@ -38,6 +38,7 @@ const Skills = () => {
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
                         className="text-sm font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
                     >
                         Foundation
@@ -66,27 +67,20 @@ const Skills = () => {
 
                 {/* Skills Container */}
                 <div className="max-w-5xl mx-auto min-h-[200px]">
-                    <motion.div
-                        layout
-                        className="flex flex-wrap justify-center gap-4"
-                    >
-                        <AnimatePresence mode="popLayout">
-                            {filteredSkills.map((skill) => (
-                                <motion.div
-                                    layout
-                                    key={skill.name}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                    className="px-6 py-3 rounded-[1.2rem] bg-[#FAFAFA] dark:bg-[#1a1a1a] text-gray-900 dark:text-gray-200 border-2 border-gray-50 dark:border-gray-800 font-bold text-xs transition-all duration-300 cursor-default shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] flex items-center gap-2 group hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white"
-                                >
-                                    <skill.icon className="w-4 h-4 text-gray-400 group-hover:text-white dark:group-hover:text-black transition-colors" />
-                                    {skill.name}
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {filteredSkills.map((skill) => (
+                            <motion.div
+                                key={skill.name}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                                className="px-6 py-3 rounded-[1.2rem] bg-[#FAFAFA] dark:bg-[#1a1a1a] text-gray-900 dark:text-gray-200 border-2 border-gray-50 dark:border-gray-800 font-bold text-xs transition-all duration-300 cursor-default shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] flex items-center gap-2 group hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white"
+                            >
+                                <skill.icon className="w-4 h-4 text-gray-400 group-hover:text-white dark:group-hover:text-black transition-colors" />
+                                {skill.name}
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
