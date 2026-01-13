@@ -1,44 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useTypewriter } from '../hooks/useTypewriter';
 
 const Hero = () => {
-    const [text, setText] = useState('');
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [loopNum, setLoopNum] = useState(0);
-    const [typingSpeed, setTypingSpeed] = useState(150);
-
     const roles = ["React Native Developer", "Mobile App Specialist", "UI/UX Enthusiast"];
-
-    useEffect(() => {
-        const handleTyping = () => {
-            const i = loopNum % roles.length;
-            const fullText = roles[i];
-
-            setText(isDeleting
-                ? fullText.substring(0, text.length - 1)
-                : fullText.substring(0, text.length + 1)
-            );
-
-            setTypingSpeed(isDeleting ? 80 : 150);
-
-            if (!isDeleting && text === fullText) {
-                setTimeout(() => setIsDeleting(true), 1500);
-            } else if (isDeleting && text === '') {
-                setIsDeleting(false);
-                setLoopNum(loopNum + 1);
-            }
-        };
-
-        const timer = setTimeout(handleTyping, typingSpeed);
-        return () => clearTimeout(timer);
-    }, [text, isDeleting, loopNum]);
+    const text = useTypewriter(roles);
 
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-[#FAFAFA] dark:bg-black transition-colors duration-300">
             {/* Background Sophistication */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50/50 dark:bg-blue-900/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-50/50 dark:bg-purple-900/10 rounded-full blur-[120px]" />
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none transform-gpu">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50/50 dark:bg-blue-900/10 rounded-full blur-3xl lg:blur-[120px] will-change-transform" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-50/50 dark:bg-purple-900/10 rounded-full blur-3xl lg:blur-[120px] will-change-transform" />
             </div>
 
             <div className="w-full px-6 sm:px-12 lg:px-16 relative z-10">
@@ -102,7 +75,7 @@ const Hero = () => {
                             <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 className="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tighter mb-6 leading-[0.9]"
                             >
@@ -115,7 +88,7 @@ const Hero = () => {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
                                 className="h-8 md:h-10 mb-4"
                             >
@@ -132,7 +105,7 @@ const Hero = () => {
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.6 }}
                                 className="text-sm md:text-base text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed font-medium"
                             >
@@ -146,7 +119,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: false }}
+                            viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.8 }}
                             className="flex flex-col sm:flex-row items-center gap-4"
                         >

@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
 
     const contactMethods = [
         {
@@ -116,7 +107,7 @@ const Contact = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: false }}
+                        viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="lg:w-2/3 bg-white dark:bg-[#111] rounded-[2rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-xl relative overflow-hidden"
                     >

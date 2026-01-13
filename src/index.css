@@ -149,7 +149,10 @@ body {
   color: transparent;
 }
 
-html,
+html {
+  scroll-padding-top: 80px;
+}
+
 body,
 #root {
   margin: 0;

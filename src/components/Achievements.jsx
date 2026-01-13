@@ -118,7 +118,7 @@ const Achievements = () => {
                                 key={index}
                                 initial={{ opacity: 0, x: 50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(intern)}
                                 className="group shrink-0 w-[85vw] sm:w-[400px] snap-center cursor-pointer bg-[#FAFAFA] dark:bg-[#111] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 transition-all duration-500 hover:shadow-2xl hover:bg-white dark:hover:bg-[#161616] flex flex-col"
@@ -164,7 +164,7 @@ const Achievements = () => {
                                 key={index}
                                 initial={{ opacity: 0, x: 50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(hack)}
                                 className="group shrink-0 w-[80vw] sm:w-[350px] snap-center cursor-pointer bg-white dark:bg-[#111] rounded-[2rem] p-8 border border-gray-100 dark:border-gray-800 hover:border-black dark:hover:border-white transition-all duration-500 flex flex-col items-center text-center hover:shadow-xl"

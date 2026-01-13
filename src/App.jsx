@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Achievements from './components/Achievements';
-import Contact from './components/Contact';
 import LoadingScreen from './components/LoadingScreen';
 import Footer from './components/Footer';
 import './App.css';
+
+// Lazy load heavy components for better initial load
+const Skills = React.lazy(() => import('./components/Skills'));
+const Projects = React.lazy(() => import('./components/Projects'));
+const Achievements = React.lazy(() => import('./components/Achievements'));
+const Contact = React.lazy(() => import('./components/Contact'));
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -61,10 +63,12 @@ function App() {
         <main>
           <Hero />
           <About />
-          <Skills />
-          <Projects />
-          <Achievements />
-          <Contact />
+          <Suspense fallback={<div className="py-20 text-center">Loading...</div>}>
+            <Skills />
+            <Projects />
+            <Achievements />
+            <Contact />
+          </Suspense>
         </main>
         <Footer />
       </div>
