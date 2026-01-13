@@ -107,7 +107,7 @@ const Achievements = () => {
                 {/* Internships & Certifications Section */}
                 <div className="max-w-7xl mx-auto mb-24">
                     <div className="flex items-center gap-4 mb-10">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Experience & Growth</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Certificates</h3>
                         <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 hidden sm:block" />
                     </div>
 

@@ -134,6 +134,15 @@ const Navbar = () => {
             </motion.a>
           ))}
 
+          {/* Resume Button */}
+          <a
+            href="/resume.pdf"
+            download="Syed_Firas_Resume.pdf"
+            className="ml-4 px-6 py-2 rounded-full bg-black dark:bg-white text-white dark:text-black text-xs font-bold uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-all shadow-md"
+          >
+            Resume
+          </a>
+
           {/* Desktop Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -192,6 +201,13 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
+              <a
+                href="/resume.pdf"
+                download="Syed_Firas_Resume.pdf"
+                className="block px-6 py-4 text-sm font-bold uppercase tracking-widest rounded-2xl transition-all text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#111] hover:text-black dark:hover:text-white"
+              >
+                Download Resume
+              </a>
             </div>
           </motion.div>
         )}
