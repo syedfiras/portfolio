@@ -4,6 +4,7 @@ import { FaGithub } from 'react-icons/fa';
 import creatorflowImg from "../assets/cfai.png";
 import sahaya from "../assets/sahaya.jpeg";
 import expen from "../assets/expence.png";
+import ijestmImg from "../assets/ijestm.png";
 
 const mainProjects = [
     {
@@ -29,6 +30,18 @@ const mainProjects = [
         color: 'bg-purple-50 text-purple-600 border-purple-100',
         accentColor: '#8b5cf6',
         features: ['AI Script Generation', 'Content Analysis', 'Hook Creator', 'Performance Insights', 'Multi-platform Support']
+    },
+    {
+        title: 'IJESTM',
+        description: 'Developed a full-stack web application for the International Journal of Engineering, Science, Technology & Management (IJESTM) — a peer-reviewed, open-access academic journal aimed at advancing research visibility and dissemination in engineering, science, technology, and management fields.',
+        fullDescription: 'IJESTM is a full-stack academic journal web application developed to provide a digital platform for publishing and accessing peer-reviewed research articles. The system enables users to browse journal volumes, issues, archives, editorial details, and publication information in an organized manner.',
+        tech: ['React', 'Node.js', 'MySql'],
+        image: ijestmImg,
+        link: 'https://ijestm.aitm.edu.in/',
+        github: 'https://github.com/codingclub-aitm/IJESTM',
+        color: 'bg-purple-50 text-purple-600 border-purple-100',
+        accentColor: '#8b5cf6',
+        features: ['Dynamic journal archives and article listings', 'Editorial and publication information modules', 'REST API integration', 'Responsive UI design']
     },
 ];
 
@@ -148,13 +161,13 @@ const Projects = () => {
                         Portfolio
                     </motion.span>
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                        Selected Projects
+                        Live Projects
                     </h2>
                 </div>
 
                 {/* Main Projects */}
                 <div className="mb-16">
-                    <div className="grid gap-8 md:grid-cols-2">
+                    <div className="grid gap-8 md:grid-cols-3 hide-scrollbar">
                         {mainProjects.map((project, index) => renderProjectCard(project, index, false))}
                     </div>
                 </div>
