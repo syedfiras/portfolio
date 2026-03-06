@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const internships = [
     {
@@ -10,7 +11,7 @@ const internships = [
         description: 'Completed internship in collaboration with E&N IIT Hyderabad, focusing on modern web technologies and full-stack integration.',
         details: 'Worked on real-world projects, implementing responsive designs and integrating APIs. Collaborated with cross-functional teams to deliver high-quality web solutions.',
         image: '/internship-iit.jpg',
-        color: 'bg-blue-50 text-blue-600 border-blue-100',
+        color: 'bg-blue-50 text-[#00ebc7] border-blue-100',
         achievement: 'Completed'
     },
     {
@@ -21,7 +22,7 @@ const internships = [
         description: 'Successfully completed Web Development Upskilling Course, mastering full-stack concepts, database design, and responsive UI.',
         details: 'Gained proficiency in MERN stack, database management, and deployment strategies. Built multiple capstone projects demonstrating full-stack capabilities.',
         image: '/course-webdev.jpg',
-        color: 'bg-purple-50 text-purple-600 border-purple-100',
+        color: 'bg-purple-50 text-[#ff5470] border-purple-100',
         achievement: 'Certified'
     },
     {
@@ -85,9 +86,24 @@ const hackathons = [
 const Achievements = () => {
     const [selectedEvent, setSelectedEvent] = useState(null);
 
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax values
+    const yParallaxFast = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
     return (
-        <section id="achievements" className="py-24 bg-white dark:bg-black transition-colors duration-300">
-            <div className="w-full px-6 sm:px-12 lg:px-16">
+        <section id="achievements" ref={containerRef} className="py-24 bg-white transition-colors duration-300 relative overflow-hidden">
+            {/* Parallax Background Decorations */}
+            <motion.div
+                style={{ y: yParallaxFast }}
+                className="absolute left-[10%] top-[40%] w-[20%] h-[20%] bg-[#00ebc7]/30/10 rounded-full mix-blend-multiply -z-10 blur-3xl lg:blur-[80px]"
+            />
+
+            <div className="w-full px-6 sm:px-12 lg:px-16 relative z-10">
 
                 {/* Header Section */}
                 <div className="max-w-7xl mx-auto mb-20 text-center">
@@ -95,21 +111,21 @@ const Achievements = () => {
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
+                        className="text-xs font-bold tracking-widest text-[#6b7280] uppercase mb-4 block"
                     >
                         Success & Learning
                     </motion.span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#1b2d45] tracking-tight">
                         Selected Achievements
                     </h2>
-                    <div className="w-16 h-1 bg-black dark:bg-white mx-auto mt-6 rounded-full" />
+                    <div className="w-16 h-1 bg-[#1b2d45] mx-auto mt-6 rounded-full" />
                 </div>
 
                 {/* Internships & Certifications Section */}
                 <div className="max-w-7xl mx-auto mb-24">
                     <div className="flex items-center gap-4 mb-10">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Certificates</h3>
-                        <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 hidden sm:block" />
+                        <h3 className="text-lg font-bold text-[#1b2d45]">Certificates</h3>
+                        <div className="h-[1px] flex-1 bg-[#f4efd8] hidden sm:block" />
                     </div>
 
                     {/* Horizontal Scroll Container */}
@@ -122,27 +138,27 @@ const Achievements = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(intern)}
-                                className="group shrink-0 w-[85vw] sm:w-[400px] snap-center cursor-pointer bg-[#FAFAFA] dark:bg-[#111] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 transition-all duration-500 hover:shadow-2xl hover:bg-white dark:hover:bg-[#161616] flex flex-col"
+                                className="group shrink-0 w-[85vw] sm:w-[400px] snap-center cursor-pointer bg-white rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:-translate-y-1 flex flex-col neo-brutal"
                             >
                                 <div className="p-8 sm:p-10 flex flex-col flex-1">
                                     <div className="flex justify-between items-start mb-6">
                                         <div>
-                                            <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 dark:text-gray-300 mb-3 inline-block">
+                                            <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#f4efd8] border border-[#1b2d45] mb-3 inline-block">
                                                 {intern.date}
                                             </span>
-                                            <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{intern.company}</p>
+                                            <p className="text-[10px] font-bold text-[#6b7280] uppercase tracking-widest">{intern.company}</p>
                                         </div>
                                         <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest ${intern.color} border`}>
                                             {intern.achievement}
                                         </span>
                                     </div>
-                                    <h4 className="text-xl font-black text-gray-900 dark:text-white mb-4 tracking-tight leading-tight group-hover:text-primary transition-colors">
+                                    <h4 className="text-xl font-black text-[#1b2d45] mb-4 tracking-tight leading-tight group-hover:text-primary transition-colors">
                                         {intern.title}
                                     </h4>
-                                    <p className="text-gray-500 dark:text-gray-400 text-xs font-medium leading-relaxed mb-8 line-clamp-3">
+                                    <p className="text-[#2b4566] text-xs font-medium leading-relaxed mb-8 line-clamp-3">
                                         {intern.description}
                                     </p>
-                                    <button className="mt-auto text-xs font-black uppercase tracking-widest text-black dark:text-white border-b-2 border-transparent group-hover:border-black dark:group-hover:border-white transition-all w-max">
+                                    <button className="mt-auto text-xs font-black uppercase tracking-widest text-[#1b2d45] border-b-2 border-transparent group-hover:border-[#1b2d45] transition-all w-max">
                                         View details
                                     </button>
                                 </div>
@@ -154,8 +170,8 @@ const Achievements = () => {
                 {/* Hackathons Section */}
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center gap-4 mb-10">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Events & Innovation</h3>
-                        <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 hidden sm:block" />
+                        <h3 className="text-lg font-bold text-[#1b2d45]">Events & Innovation</h3>
+                        <div className="h-[1px] flex-1 bg-[#f4efd8] hidden sm:block" />
                     </div>
 
                     {/* Horizontal Scroll Container */}
@@ -168,9 +184,9 @@ const Achievements = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 onClick={() => setSelectedEvent(hack)}
-                                className="group shrink-0 w-[80vw] sm:w-[350px] snap-center cursor-pointer bg-white dark:bg-[#111] rounded-[2rem] p-8 border border-gray-100 dark:border-gray-800 hover:border-black dark:hover:border-white transition-all duration-500 flex flex-col items-center text-center hover:shadow-xl"
+                                className="group shrink-0 w-[80vw] sm:w-[350px] snap-center cursor-pointer bg-white rounded-[2rem] p-8 transition-all duration-500 flex flex-col items-center text-center neo-brutal hover:-translate-y-1"
                             >
-                                <div className="w-16 h-16 rounded-[1.5rem] bg-black dark:bg-white flex items-center justify-center text-white dark:text-black mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
+                                <div className="w-16 h-16 rounded-[1.5rem] bg-[#1b2d45] flex items-center justify-center text-[#fdf8e3] mb-6 group-hover:scale-110 transition-transform duration-500 neo-brutal-sm">
                                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
                                     </svg>
@@ -178,10 +194,10 @@ const Achievements = () => {
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${hack.color} border mb-4`}>
                                     {hack.achievement}
                                 </span>
-                                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{hack.title}</h4>
-                                <p className="text-gray-400 dark:text-gray-500 text-sm font-medium mb-6">{hack.role}</p>
+                                <h4 className="text-lg font-bold text-[#1b2d45] mb-2">{hack.title}</h4>
+                                <p className="text-[#6b7280] text-sm font-medium mb-6">{hack.role}</p>
 
-                                <button className="mt-auto text-xs font-black uppercase tracking-widest text-black dark:text-white border-b-2 border-transparent group-hover:border-black dark:group-hover:border-white transition-all">
+                                <button className="mt-auto text-xs font-black uppercase tracking-widest text-[#1b2d45] border-b-2 border-transparent group-hover:border-[#1b2d45] transition-all">
                                     View details
                                 </button>
                             </motion.div>
@@ -205,11 +221,11 @@ const Achievements = () => {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white dark:bg-[#111] rounded-[2.5rem] max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-[0_48px_80px_-20px_rgba(0,0,0,0.1)] flex flex-col md:flex-row relative border border-gray-100 dark:border-gray-800"
+                            className="bg-white rounded-[2.5rem] max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative neo-brutal"
                         >
                             <button
                                 onClick={() => setSelectedEvent(null)}
-                                className="absolute top-8 right-8 p-3 bg-gray-50 dark:bg-black/50 dark:text-white rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 z-10 backdrop-blur-sm"
+                                className="absolute top-8 right-8 p-3 bg-[#f4efd8]/50 rounded-full hover:bg-[#1b2d45] hover:text-[#fdf8e3] transition-all duration-300 z-10 backdrop-blur-sm"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -217,7 +233,7 @@ const Achievements = () => {
                             </button>
 
                             {/* Modal Left: Dynamic Visual */}
-                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-[#FAFAFA] dark:bg-[#0a0a0a]">
+                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-[#FAFAFA]">
                                 <img
                                     src={selectedEvent.image}
                                     alt={selectedEvent.title}
@@ -232,28 +248,28 @@ const Achievements = () => {
                                     {selectedEvent.achievement}
                                 </span>
 
-                                <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 leading-none">
+                                <h2 className="text-2xl md:text-3xl font-black text-[#1b2d45] tracking-tighter mb-4 leading-none">
                                     {selectedEvent.title}
                                 </h2>
 
-                                <div className="flex items-center gap-3 text-gray-400 font-bold uppercase tracking-widest text-xs mb-10">
+                                <div className="flex items-center gap-3 text-[#6b7280] font-bold uppercase tracking-widest text-xs mb-10">
                                     <span>{selectedEvent.role}</span>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-gray-200" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-[#f4efd8]" />
                                     <span>{selectedEvent.date}</span>
                                 </div>
 
                                 <div className="space-y-10">
                                     <div>
-                                        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white mb-4 border-l-4 border-black dark:border-white pl-4">Perspective</h3>
-                                        <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed font-medium">
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-[#1b2d45] mb-4 border-l-4 border-[#1b2d45] pl-4">Perspective</h3>
+                                        <p className="text-[#2b4566] text-lg leading-relaxed font-medium">
                                             {selectedEvent.description}
                                         </p>
                                     </div>
 
                                     {selectedEvent.details && (
                                         <div>
-                                            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white mb-4 border-l-4 border-black dark:border-white pl-4">Core Contribution</h3>
-                                            <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed font-medium italic">
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-[#1b2d45] mb-4 border-l-4 border-[#1b2d45] pl-4">Core Contribution</h3>
+                                            <p className="text-[#2b4566] text-lg leading-relaxed font-medium italic">
                                                 "{selectedEvent.details}"
                                             </p>
                                         </div>
@@ -261,7 +277,7 @@ const Achievements = () => {
 
                                     <button
                                         onClick={() => setSelectedEvent(null)}
-                                        className="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 shadow-xl shadow-black/10 dark:shadow-white/5"
+                                        className="w-full py-5 bg-[#1b2d45] text-[#fdf8e3] rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-all duration-300 neo-brutal-sm"
                                     >
                                         Dismiss View
                                     </button>

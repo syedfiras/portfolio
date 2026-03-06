@@ -1,7 +1,17 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const Contact = () => {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax values
+    const yParallaxFast = useTransform(scrollYProgress, [0, 1], [100, -100]);
+    const rotateParallax = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
     const contactMethods = [
         {
@@ -51,20 +61,26 @@ const Contact = () => {
     ];
 
     return (
-        <section id="contact" className="py-8 bg-[#FAFAFA] dark:bg-[#0a0a0a] transition-colors duration-300">
-            <div className="w-full px-6 sm:px-12 lg:px-16">
+        <section id="contact" ref={containerRef} className="py-8 bg-[#FAFAFA] transition-colors duration-300 relative overflow-hidden">
+            {/* Parallax Background Decorations */}
+            <motion.div
+                style={{ y: yParallaxFast, rotate: rotateParallax }}
+                className="absolute left-[-5%] bottom-[-10%] w-[30%] h-[30%] bg-[#00ebc7]/30/10 rounded-full mix-blend-multiply -z-10 blur-3xl lg:blur-[120px]"
+            />
+
+            <div className="w-full px-6 sm:px-12 lg:px-16 relative z-10">
 
                 {/* Header Section */}
                 <div className="max-w-7xl mx-auto mb-8 text-center md:text-left">
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        className="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
+                        className="text-xs font-bold tracking-widest text-[#6b7280] uppercase mb-4 block"
                     >
                         Communication
                     </motion.span>
-                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
-                        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-400 dark:from-white dark:to-gray-500 font-black">Connect</span>
+                    <h2 className="text-2xl md:text-3xl font-black text-[#1b2d45] tracking-tighter leading-none">
+                        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-400 font-black">Connect</span>
                     </h2>
                 </div>
 
@@ -82,19 +98,19 @@ const Contact = () => {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: false }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group block bg-white dark:bg-[#111] rounded-2xl p-4 border border-gray-100 dark:border-gray-800 hover:border-black dark:hover:border-white transition-all duration-500 hover:shadow-lg"
+                                className="group block bg-white rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 neo-brutal"
                             >
                                 <div className="flex items-center gap-6">
-                                    <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-black/10">
+                                    <div className="w-10 h-10 rounded-xl bg-[#1b2d45] text-[#fdf8e3] flex items-center justify-center group-hover:scale-110 transition-transform duration-500 neo-brutal-sm">
                                         {React.cloneElement(method.icon, { className: "w-5 h-5" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">{method.title}</p>
-                                        <p className="text-base font-bold text-gray-900 dark:text-white truncate tracking-tight">{method.value}</p>
-                                        <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mt-1">{method.label}</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-[#6b7280] mb-1">{method.title}</p>
+                                        <p className="text-base font-bold text-[#1b2d45] truncate tracking-tight">{method.value}</p>
+                                        <p className="text-xs font-medium text-[#6b7280] mt-1">{method.label}</p>
                                     </div>
                                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <svg className="w-5 h-5 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 text-[#1b2d45]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                         </svg>
                                     </div>
@@ -109,13 +125,13 @@ const Contact = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="lg:w-2/3 bg-white dark:bg-[#111] rounded-[2rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-xl relative overflow-hidden"
+                        className="lg:w-2/3 bg-white rounded-[2rem] p-6 md:p-8 relative overflow-hidden neo-brutal"
                     >
                         {/* Decorative background element */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 dark:bg-white/5 rounded-bl-[100%] pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#f4efd8]/5 rounded-bl-[100%] pointer-events-none" />
 
                         <div className="relative z-10">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tighter mb-6">Send a Message</h3>
+                            <h3 className="text-lg font-black text-[#1b2d45] tracking-tighter mb-6">Send a Message</h3>
 
                             <form action="https://formsubmit.co/syedfiras06@gmail.com" method="POST" className="space-y-6">
                                 <input type="hidden" name="_captcha" value="false" />
@@ -123,36 +139,36 @@ const Contact = () => {
 
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-4">Full Identity</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#6b7280] ml-4">Full Identity</label>
                                         <input
                                             type="text"
                                             name="name"
                                             required
                                             placeholder="Your Name"
-                                            className="w-full px-6 py-3 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none"
+                                            className="w-full px-6 py-3 bg-white rounded-xl text-[#1b2d45] font-bold text-sm focus:outline-none transition-all duration-300 neo-brutal-sm"
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-4">Email Address</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#6b7280] ml-4">Email Address</label>
                                         <input
                                             type="email"
                                             name="email"
                                             required
                                             placeholder="hello@example.com"
-                                            className="w-full px-6 py-3 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none"
+                                            className="w-full px-6 py-3 bg-white rounded-xl text-[#1b2d45] font-bold text-sm focus:outline-none transition-all duration-300 neo-brutal-sm"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-4">Project Scope</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#6b7280] ml-4">Project Scope</label>
                                     <textarea
                                         name="message"
                                         rows="4"
                                         required
                                         placeholder="Describe your vision or inquiry..."
-                                        className="w-full px-6 py-4 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-2xl text-gray-900 dark:text-white font-bold text-sm border-2 border-transparent focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-black transition-all duration-300 outline-none resize-none"
+                                        className="w-full px-6 py-4 bg-white rounded-2xl text-[#1b2d45] font-bold text-sm focus:outline-none transition-all duration-300 resize-none neo-brutal-sm"
                                     ></textarea>
                                 </div>
 
@@ -160,7 +176,7 @@ const Contact = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-black/10 dark:shadow-white/5 hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-4"
+                                    className="w-full py-4 bg-[#1b2d45] text-[#fdf8e3] rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-all duration-300 flex items-center justify-center gap-4 neo-brutal-sm"
                                 >
                                     Transmit Message
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

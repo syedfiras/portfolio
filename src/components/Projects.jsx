@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import creatorflowImg from "../assets/cfai.png";
 import sahaya from "../assets/sahaya.jpeg";
@@ -15,7 +16,7 @@ const mainProjects = [
         image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
         link: 'https://gymnetsolutions.netlify.app',
         github: 'https://github.com/AhmedGannam/Gym-Management-App',
-        color: 'bg-blue-50 text-blue-600 border-blue-100',
+        color: 'bg-blue-50 text-[#00ebc7] border-blue-100',
         accentColor: '#3b82f6',
         features: ['Member Management', 'Payment Processing', 'Analytics Dashboard']
     },
@@ -27,7 +28,7 @@ const mainProjects = [
         image: creatorflowImg,
         link: 'https://cfai.lovable.app',
         github: 'https://github.com/syedfiras/creator-flow-ai',
-        color: 'bg-purple-50 text-purple-600 border-purple-100',
+        color: 'bg-purple-50 text-[#ff5470] border-purple-100',
         accentColor: '#8b5cf6',
         features: ['AI Script Generation', 'Content Analysis', 'Hook Creator', 'Performance Insights', 'Multi-platform Support']
     },
@@ -39,7 +40,7 @@ const mainProjects = [
         image: ijestmImg,
         link: 'https://ijestm.aitm.edu.in/',
         github: 'https://github.com/codingclub-aitm/IJESTM',
-        color: 'bg-purple-50 text-purple-600 border-purple-100',
+        color: 'bg-purple-50 text-[#ff5470] border-purple-100',
         accentColor: '#8b5cf6',
         features: ['Dynamic journal archives and article listings', 'Editorial and publication information modules', 'REST API integration', 'Responsive UI design']
     },
@@ -87,14 +88,26 @@ const additionalProjects = [
 const Projects = () => {
     const [selectedProject, setSelectedProject] = useState(null);
 
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax values fixed to array length to avoid rules-of-hooks issue
+    const yParallax0 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+    const yParallax1 = useTransform(scrollYProgress, [0, 1], [30, -30]);
+    const yParallax2 = useTransform(scrollYProgress, [0, 1], [10, -10]);
+    const yTransforms = [yParallax0, yParallax1, yParallax2];
+
     const renderProjectCard = (project, index, isAdditional = false) => (
         <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative bg-white dark:bg-[#111] rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-500"
+            style={!isAdditional ? { y: yTransforms[index] } : {}}
+            className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-500 neo-brutal hover:-translate-y-1"
         >
             <div className="relative h-64 overflow-hidden">
                 <img
@@ -103,7 +116,7 @@ const Projects = () => {
                     className={`w-full h-full object-cover transition-all duration-700 ${isAdditional ? 'grayscale group-hover:grayscale-0' : 'scale-105 group-hover:scale-110'
                         }`}
                 />
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div className="absolute inset-0 bg-[#1b2d45]/5 group-hover:bg-transparent transition-colors duration-500"></div>
 
                 {/* Overlay Badge */}
                 <div className="absolute top-4 left-4">
@@ -114,17 +127,17 @@ const Projects = () => {
             </div>
 
             <div className="p-8">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
+                <h3 className="text-lg font-bold text-[#1b2d45] mb-3 tracking-tight">
                     {project.title}
                 </h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2">
+                <p className="text-[#2b4566] text-sm leading-relaxed mb-6 line-clamp-2">
                     {project.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50 dark:border-gray-800">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                     <button
                         onClick={() => setSelectedProject(project)}
-                        className="text-sm font-bold text-gray-900 dark:text-gray-200 hover:text-primary transition-colors flex items-center gap-2 group/btn"
+                        className="text-sm font-bold text-[#1b2d45] hover:text-primary transition-colors flex items-center gap-2 group/btn"
                     >
                         View Details
                         <svg className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +149,7 @@ const Projects = () => {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-gray-200 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                            className="p-2 rounded-full bg-white text-[#1b2d45] hover:bg-[#1b2d45] hover:text-[#fdf8e3] transition-all duration-300 neo-brutal-sm"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -149,18 +162,24 @@ const Projects = () => {
     );
 
     return (
-        <section id="projects" className="py-16 bg-[#FAFAFA] dark:bg-[#0a0a0a] transition-colors duration-300">
-            <div className="w-full px-6 sm:px-12 lg:px-16">
+        <section id="projects" ref={containerRef} className="py-16 bg-[#FAFAFA] transition-colors duration-300 relative overflow-hidden">
+            {/* Parallax Background Decorations */}
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [-100, 100]), rotate: useTransform(scrollYProgress, [0, 1], [0, 45]) }}
+                className="absolute right-[-5%] top-[20%] w-[30%] h-[30%] bg-[#ff5470]/30/10 rounded-[4rem] mix-blend-multiply -z-10 blur-3xl"
+            />
+
+            <div className="w-full px-6 sm:px-12 lg:px-16 relative z-10">
                 <div className="max-w-7xl mx-auto mb-12">
                     <motion.span
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="text-[10px] font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4 block"
+                        className="text-[10px] font-bold tracking-widest text-[#6b7280] uppercase mb-4 block"
                     >
                         Portfolio
                     </motion.span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#1b2d45] tracking-tight">
                         Live Projects
                     </h2>
                 </div>
@@ -175,8 +194,8 @@ const Projects = () => {
                 {/* Additional Projects */}
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between mb-12">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Experiments & More</h3>
-                        <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800 mx-8 hidden sm:block"></div>
+                        <h3 className="text-lg font-bold text-[#1b2d45]">Experiments & More</h3>
+                        <div className="h-[1px] flex-1 bg-[#f4efd8] mx-8 hidden sm:block"></div>
                     </div>
                     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                         {additionalProjects.map((project, index) => renderProjectCard(project, index, true))}
@@ -199,11 +218,11 @@ const Projects = () => {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white dark:bg-[#111] rounded-[2rem] max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] flex flex-col md:flex-row relative border border-gray-100 dark:border-gray-800"
+                            className="bg-white rounded-[2rem] max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative neo-brutal"
                         >
                             <button
                                 onClick={() => setSelectedProject(null)}
-                                className="absolute top-6 right-6 p-3 bg-gray-50 dark:bg-black/50 dark:text-white rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 z-10 backdrop-blur-sm"
+                                className="absolute top-6 right-6 p-3 bg-[#f4efd8]/50 rounded-full hover:bg-[#1b2d45] hover:text-[#fdf8e3] transition-all duration-300 z-10 backdrop-blur-sm"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -211,7 +230,7 @@ const Projects = () => {
                             </button>
 
                             {/* Left: Project Image */}
-                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-gray-50">
+                            <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-[#f4efd8]">
                                 <img
                                     src={selectedProject.image}
                                     alt={selectedProject.title}
@@ -226,22 +245,22 @@ const Projects = () => {
                                     <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-bold ${selectedProject.color} border mb-4`}>
                                         {selectedProject.tech.join(' · ')}
                                     </span>
-                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
+                                    <h2 className="text-2xl font-bold text-[#1b2d45] tracking-tight mb-6">
                                         {selectedProject.title}
                                     </h2>
-                                    <p className="text-gray-500 text-lg leading-relaxed">
+                                    <p className="text-[#2b4566] text-lg leading-relaxed">
                                         {selectedProject.fullDescription}
                                     </p>
                                 </div>
 
                                 <div className="space-y-8">
                                     <div>
-                                        <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Core Features</h3>
+                                        <h3 className="text-sm font-bold uppercase tracking-wider text-[#6b7280] mb-4">Core Features</h3>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             {selectedProject.features.map((feature, i) => (
                                                 <div key={i} className="flex items-center gap-3 group">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white group-hover:scale-150 transition-transform"></div>
-                                                    <span className="text-gray-600 dark:text-gray-400 text-sm font-medium">{feature}</span>
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#1b2d45] group-hover:scale-150 transition-transform"></div>
+                                                    <span className="text-[#2b4566] text-sm font-medium">{feature}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -253,7 +272,7 @@ const Projects = () => {
                                                 href={selectedProject.link}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 font-bold flex items-center gap-2 shadow-lg shadow-black/10 dark:shadow-white/5"
+                                                className="px-8 py-4 bg-[#1b2d45] text-[#fdf8e3] rounded-2xl hover:opacity-90 transition-all duration-300 font-bold flex items-center gap-2 neo-brutal-sm"
                                             >
                                                 Visit Project
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -266,7 +285,7 @@ const Projects = () => {
                                                 href={selectedProject.github}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="px-8 py-4 bg-gray-900 dark:bg-gray-800 text-white rounded-2xl hover:bg-black dark:hover:bg-gray-700 transition-all duration-300 font-bold flex items-center gap-2 shadow-lg shadow-black/10"
+                                                className="px-8 py-4 bg-[#1b2d45] text-[#fdf8e3] rounded-2xl hover:opacity-90 transition-all duration-300 font-bold flex items-center gap-2 neo-brutal-sm"
                                             >
                                                 GitHub Code
                                                 <FaGithub className="w-5 h-5" />
@@ -274,7 +293,7 @@ const Projects = () => {
                                         )}
                                         <button
                                             onClick={() => setSelectedProject(null)}
-                                            className="px-8 py-4 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 font-bold"
+                                            className="px-8 py-4 bg-white text-[#1b2d45] rounded-2xl hover:opacity-90 transition-all duration-300 font-bold neo-brutal-sm"
                                         >
                                             Close
                                         </button>

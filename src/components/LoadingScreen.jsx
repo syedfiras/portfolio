@@ -46,92 +46,73 @@ const LoadingScreen = () => {
                         y: '-100%',
                         transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
                     }}
-                    className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center p-6 overflow-hidden"
+                    className="fixed inset-0 z-[9999] bg-[var(--color-bg-main)] flex flex-col items-center justify-center p-6 overflow-hidden border-b-4 border-black"
                 >
-                    {/* Background Texture */}
-                    <div className="absolute inset-0 opacity-20 pointer-events-none">
-                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_100%)]" />
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#1b2d45 2px, transparent 2px)', backgroundSize: '30px 30px' }}>
                     </div>
 
-                    <div className="relative w-full max-w-lg">
+                    <div className="relative w-full max-w-lg bg-white border-4 border-[#1b2d45] shadow-[12px_12px_0_0_#1b2d45] p-8 md:p-12 mb-8 transform -rotate-1">
                         {/* Name & Role */}
-                        <div className="mb-16 overflow-hidden text-center">
+                        <div className="mb-10 text-center border-b-4 border-[#1b2d45] pb-8">
                             <motion.h1
-                                initial={{ y: 100 }}
-                                animate={{ y: 0 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="text-white text-xl md:text-2xl font-black tracking-[0.2em] uppercase"
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.5, ease: "backOut" }}
+                                className="text-[#1b2d45] text-3xl md:text-5xl font-black tracking-tighter uppercase mb-4"
                             >
                                 Syed Firas
                             </motion.h1>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5, duration: 1 }}
-                                className="h-[1px] w-12 bg-white/20 mx-auto my-4"
-                            />
                             <motion.p
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 0.6, duration: 1 }}
-                                className="text-gray-500 text-[10px] font-bold tracking-[0.3em] uppercase"
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                                className="bg-[#ff5470] text-white inline-block px-4 py-1 text-xs md:text-sm font-bold tracking-widest uppercase border-2 border-[#1b2d45] shadow-[4px_4px_0_0_#1b2d45]"
                             >
                                 Mobile Experience Architect
                             </motion.p>
                         </div>
 
-                        {/* Large Architectural Counter */}
+                        {/* Bold Progress Bar */}
                         <div className="relative flex flex-col items-center">
-                            <motion.div
-                                className="text-[8rem] md:text-[12rem] font-black text-white/5 leading-none select-none"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 1 }}
-                            >
-                                {Math.floor(progress)}
-                            </motion.div>
-
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                                    {Math.floor(progress)}%
-                                </span>
+                            <div className="w-full h-12 border-4 border-[#1b2d45] bg-white relative overflow-hidden mb-4">
+                                <motion.div
+                                    className="absolute top-0 left-0 h-full bg-[#00ebc7] border-r-4 border-[#1b2d45]"
+                                    style={{ width: `${progress}%` }}
+                                    transition={{ ease: "linear" }}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center mix-blend-difference">
+                                    <span className="text-xl font-black text-white tracking-widest">
+                                        {Math.floor(progress)}%
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Scanning Line Animation */}
-                        <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            className="w-full h-[1px] bg-white/10 mt-12 overflow-hidden relative"
-                        >
-                            <motion.div
-                                className="absolute top-0 left-0 h-full bg-white transition-all duration-300 ease-out"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </motion.div>
-
                         {/* Status Bits */}
-                        <div className="mt-6 flex justify-between text-[8px] font-black uppercase tracking-widest text-gray-600">
-                            <motion.span
-                                animate={{ opacity: [0.3, 1, 0.3] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                            >
-                                INITIALIZING_SYSTEM
+                        <div className="flex justify-between text-[10px] md:text-xs font-black uppercase tracking-widest text-[#1b2d45] mt-6">
+                            <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 1, repeat: Infinity }}>
+                                {progress < 30 ? 'BOOTING...' : progress < 70 ? 'LOADING ASSETS...' : 'READY'}
                             </motion.span>
-                            <motion.span
-                                animate={{ opacity: [0.3, 1, 0.3] }}
-                                transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                            >
-                                FETCHING_RESOURCES
-                            </motion.span>
-                            <motion.span
-                                animate={{ opacity: [0.3, 1, 0.3] }}
-                                transition={{ duration: 1.5, repeat: Infinity, delay: 1 }}
-                            >
-                                COMPILING_EXPERIENCE
-                            </motion.span>
+                            <span>SYS_VOL: 1.0.4</span>
                         </div>
+                    </div>
+
+                    {/* Marquee Banner */}
+                    <div className="absolute bottom-10 py-3 bg-[#1b2d45] text-white w-[110vw] -rotate-2 border-y-4 border-white flex overflow-hidden">
+                        <motion.div
+                            initial={{ x: "0%" }}
+                            animate={{ x: "-50%" }}
+                            transition={{ repeat: Infinity, ease: "linear", duration: 10 }}
+                            className="flex whitespace-nowrap text-xl font-black uppercase tracking-widest"
+                        >
+                            <span className="mx-6">INITIALIZING SYSTEM</span> •
+                            <span className="mx-6">PORTFOLIO PROTOCOL ENABLED</span> •
+                            <span className="mx-6">FETCHING RESOURCES</span> •
+                            <span className="mx-6">INITIALIZING SYSTEM</span> •
+                            <span className="mx-6">PORTFOLIO PROTOCOL ENABLED</span> •
+                            <span className="mx-6">FETCHING RESOURCES</span> •
+                        </motion.div>
                     </div>
                 </motion.div>
             )}

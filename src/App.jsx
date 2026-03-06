@@ -4,10 +4,10 @@ import Hero from './components/Hero';
 import About from './components/About';
 import LoadingScreen from './components/LoadingScreen';
 import Footer from './components/Footer';
+import TerminalAssistant from './components/TerminalAssistant';
 import './App.css';
 
 // Lazy load heavy components for better initial load
-const Skills = React.lazy(() => import('./components/Skills'));
 const Projects = React.lazy(() => import('./components/Projects'));
 const Achievements = React.lazy(() => import('./components/Achievements'));
 const Contact = React.lazy(() => import('./components/Contact'));
@@ -46,25 +46,21 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
-  // Initialize Theme
+  // Initialize Theme locked to light
   React.useEffect(() => {
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('theme');
   }, []);
 
   return (
     <ErrorBoundary>
       <LoadingScreen />
-      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white selection:bg-black/20 dark:selection:bg-white/20 selection:text-black dark:selection:text-white transition-colors duration-300">
+      <div className="min-h-screen bg-white text-gray-900 selection:bg-black/20/20 selection:text-black transition-colors duration-300">
         <Navbar />
         <main>
           <Hero />
           <About />
           <Suspense fallback={<div className="py-20 text-center">Loading...</div>}>
-            <Skills />
             <Projects />
             <Achievements />
             <Contact />
@@ -72,6 +68,7 @@ function App() {
         </main>
         <Footer />
       </div>
+      <TerminalAssistant />
     </ErrorBoundary >
   );
 }
