@@ -1,75 +1,75 @@
-import React, { Suspense } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Lenis from '@studio-freight/lenis';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Skills from './components/Skills';
+import ProjectsWeb from './components/ProjectsWeb';
+import Experience from './components/Experience';
+import Contact from './components/Contact';
 import LoadingScreen from './components/LoadingScreen';
+import Cursor from './components/Cursor';
+import './index.css';
 import Footer from './components/Footer';
+import terminalassistant from './components/TerminalAssistant'
 import TerminalAssistant from './components/TerminalAssistant';
-import './App.css';
+import CombinedSection from './components/CombinedSection';
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
 
-// Lazy load heavy components for better initial load
-const Projects = React.lazy(() => import('./components/Projects'));
-const Achievements = React.lazy(() => import('./components/Achievements'));
-const Contact = React.lazy(() => import('./components/Contact'));
+  // Initialize Lenis for buttery smooth scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // makepill-like easing
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-900 p-4">
-          <div className="max-w-xl text-center">
-            <h1 className="text-3xl font-bold mb-4 text-red-500">Something went wrong.</h1>
-            <p className="text-gray-600 mb-6">Please refresh the page or try again later.</p>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto text-red-600 text-left text-sm font-mono border border-gray-200">
-              {this.state.error && this.state.error.toString()}
-            </pre>
-          </div>
-        </div>
-      );
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
 
-    return this.props.children;
-  }
-}
+    requestAnimationFrame(raf);
 
-function App() {
-  // Initialize Theme locked to light
-  React.useEffect(() => {
-    document.documentElement.classList.remove('dark');
-    localStorage.removeItem('theme');
-  }, []);
+    // Make sure we stop scrolling while loading
+    if (isLoading) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+
+    return () => {
+      lenis.destroy();
+    };
+  }, [isLoading]);
 
   return (
-    <ErrorBoundary>
-      <LoadingScreen />
-      <div className="min-h-screen bg-white text-gray-900 selection:bg-black/20/20 selection:text-black transition-colors duration-300">
-        <Navbar />
-        <main>
-          <Hero />
-          <About />
-          <Suspense fallback={<div className="py-20 text-center">Loading...</div>}>
-            <Projects />
-            <Achievements />
+    <div className="bg-[#020617] text-slate-200 min-h-screen font-sans selection:bg-rose-600/30 selection:text-white hide-native-cursor">
+      <Cursor />
+      
+      {isLoading ? (
+        <LoadingScreen onComplete={() => setIsLoading(false)} />
+      ) : (
+        <>
+          <Navbar />
+          <main className="relative z-10">
+            <Hero />
+            <CombinedSection/>
+            <ProjectsWeb />
             <Contact />
-          </Suspense>
-        </main>
-        <Footer />
-      </div>
-      <TerminalAssistant />
-    </ErrorBoundary >
+            <Footer/>
+            <TerminalAssistant/>
+          </main>
+        </>
+      )}
+    </div>
   );
 }
 

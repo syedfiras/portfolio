@@ -1,175 +1,377 @@
-import React from 'react';
-import { useScroll, useTransform, motion } from 'framer-motion';
-import { useTypewriter } from '../hooks/useTypewriter';
+import React, { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
-    const roles = ["React Native Developer", "Mobile App Specialist", "UI/UX Enthusiast"];
-    const text = useTypewriter(roles);
-    const { scrollY } = useScroll();
+  const containerRef = useRef(null);
 
-    // Parallax values
-    const yBg1 = useTransform(scrollY, [0, 1000], [0, 300]);
-    const yBg2 = useTransform(scrollY, [0, 1000], [0, -300]);
-    const yImage = useTransform(scrollY, [0, 600], [0, 100]);
-    const opacityImage = useTransform(scrollY, [0, 400], [1, 0.5]);
+  // Subtle Parallax on mouse move
+  useEffect(() => {
+    let rafId;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
 
-    return (
-        <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden transition-colors duration-300">
-            {/* Background Sophistication with Parallax */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <motion.div style={{ y: yBg1 }} className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#00ebc7]/30/10 rounded-full blur-3xl lg:blur-[120px] will-change-transform" />
-                <motion.div style={{ y: yBg2 }} className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#ff5470]/30/10 rounded-full blur-3xl lg:blur-[120px] will-change-transform" />
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      targetX = (clientX / window.innerWidth - 0.5) * 20;
+      targetY = (clientY / window.innerHeight - 0.5) * 20;
+    };
+
+    const animate = () => {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      
+      const layer = document.querySelector(".parallax-layer");
+      const bgLayer = document.querySelector(".parallax-layer-bg");
+      
+      if (layer) {
+        layer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+      }
+      if (bgLayer) {
+        bgLayer.style.transform = `translate(${-currentX * 1.5}px, ${-currentY * 1.5}px)`;
+      }
+      
+      rafId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    rafId = requestAnimationFrame(animate);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  const particles = React.useMemo(() => {
+    return [...Array(30)].map((_, i) => ({ id: i }));
+  }, []);
+
+  return (
+    <section 
+      id="home" 
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+    >
+      {/* Background - No gradients */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[#020617]" />
+        
+        {/* Spider web grid */}
+        <div className="absolute inset-0 opacity-20">
+          <div 
+            className="w-full h-full bg-repeat"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0 L40 80 M0 40 L80 40 M0 0 L80 80 M80 0 L0 80' stroke='%23E11D48' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Ccircle cx='40' cy='40' r='15' stroke='%232563EB' stroke-width='0.3' fill='none'/%3E%3C/svg%3E")`
+            }}
+          />
+        </div>
+
+        {/* Solid color orbs - no gradients */}
+        <div className="absolute top-20 left-20 w-[400px] h-[400px] rounded-full bg-[#E11D48]/5 blur-[100px]" />
+        <div className="absolute bottom-20 right-20 w-[500px] h-[500px] rounded-full bg-[#2563EB]/5 blur-[120px]" />
+        
+        {/* Floating particles */}
+        {particles.map((_, i) => (
+          <div
+            key={`particle-${i}`}
+            className="absolute w-0.5 h-0.5 bg-[#E11D48] rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `float ${3 + Math.random() * 5}s linear infinite`,
+              animationDelay: `${Math.random() * 5}s`,
+              opacity: 0,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container mx-auto px-6 md:px-12 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+        {/* Left Side */}
+        <div className="parallax-layer flex flex-col items-start space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#E11D48]/50 bg-[#E11D48]/10 text-sm text-[#E11D48] backdrop-blur-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E11D48] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E11D48]"></span>
+            </span>
+            Spider-Sense Active — Web Weaver Status
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-5xl md:text-7xl font-display font-bold leading-tight"
+          >
+            Your Friendly
+            <br />
+            Neighborhood
+            <br />
+            <span className="text-[#E11D48]">
+              Web Developer
+            </span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg md:text-xl text-slate-400 max-w-md leading-relaxed"
+          >
+            Swinging through the digital multiverse, crafting cinematic web experiences with great power comes great performance.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-4 pt-4"
+          >
+            <a href="#projects" className="group relative px-8 py-3 rounded-lg bg-[#E11D48] text-white font-bold overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(225,29,72,0.6)] hover:-translate-y-1">
+              <span className="relative z-10">View Web-Slinging</span>
+              <div className="absolute inset-0 bg-[#ff2a5f] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+            </a>
+            <a href="#contact" className="px-8 py-3 rounded-lg border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all hover:-translate-y-1 font-medium">
+              Contact the Web
+            </a>
+          </motion.div>
+
+          {/* Spider-Verse stats */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex gap-6 pt-6"
+          >
+            <div className="text-center">
+              <div className="text-2xl font-bold text-[#E11D48]">20+</div>
+              <div className="text-xs text-slate-500 font-mono">Webs Weaved</div>
             </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-[#2563EB]">100%</div>
+              <div className="text-xs text-slate-500 font-mono">Spider-Sense</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-[#60A5FA]">24/7</div>
+              <div className="text-xs text-slate-500 font-mono">On Patrol</div>
+            </div>
+          </motion.div>
+        </div>
 
-            <div className="w-full px-6 sm:px-12 lg:px-16 relative z-10">
-                <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-
-                    {/* Floating Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: false }}
-                        transition={{ duration: 0.5 }}
-                        className="mb-8 p-1 rounded-full bg-white neo-brutal-sm inline-flex items-center gap-2 pr-4"
-                    >
-                        <div className="flex h-8 w-8 rounded-full bg-[#1b2d45] items-center justify-center">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                            </span>
-                        </div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-gray-800">
-                            Open for collaborations
-                        </span>
-                    </motion.div>
-
-                    {/* Main Content Grid */}
-                    <div className="flex flex-col items-center">
-
-                        {/* Profile Image with Parallax & Advanced Frame */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: false }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            style={{ y: yImage, opacity: opacityImage }}
-                            className="relative mb-8"
-                        >
-                            <div className="relative w-40 h-40 md:w-52 md:h-52">
-                                {/* Decorative Ring */}
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                    className="absolute inset-[-10%] rounded-[2.5rem] md:rounded-[3.5rem] border border-dashed border-[#1b2d45]-200"
-                                />
-
-                                {/* Image Container */}
-                                <div className="absolute inset-0 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden bg-white p-2 neo-brutal">
-                                    <div className="w-full h-full rounded-[2rem] md:rounded-[3rem] overflow-hidden  transition-all duration-700 ease-in-out">
-                                        <img
-                                            src="/logo.png"
-                                            alt="Syed Firas Peerzada"
-                                            className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
-                                        />
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </motion.div>
-
-                        {/* Bold Typography Section */}
-                        <div className="max-w-4xl">
-                            <motion.h1
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-3xl md:text-5xl lg:text-6xl font-black text-[#1b2d45] tracking-tighter mb-6 leading-[0.9]"
-                            >
-                                Syed Firas <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-400 to-gray-900">
-                                    Peerzada
-                                </span>
-                            </motion.h1>
-
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.4 }}
-                                className="h-8 md:h-10 mb-4"
-                            >
-                                <p className="text-base md:text-lg font-medium text-[#2b4566] tracking-tight">
-                                    I am a <span className="text-[#1b2d45] font-bold border-b-2 border-[#1b2d45]">{text}</span>
-                                    <motion.span
-                                        animate={{ opacity: [0, 1, 0] }}
-                                        transition={{ duration: 0.8, repeat: Infinity }}
-                                        className="inline-block w-[3px] h-6 bg-[#1b2d45] ml-1 translate-y-1"
-                                    />
-                                </p>
-                            </motion.div>
-
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.6 }}
-                                className="text-sm md:text-base text-[#2b4566] max-w-2xl mx-auto mb-8 leading-relaxed font-medium"
-                            >
-                                Crafting high-performance mobile experiences with React Native.
-                                Currently focused on building <span className="text-[#1b2d45]">accessible</span> and
-                                <span className="text-[#1b2d45]"> scalable</span> digital solutions.
-                            </motion.p>
-                        </div>
-
-                        {/* CTA Buttons - Premium Minimalist */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: 0.8 }}
-                            className="flex flex-col sm:flex-row items-center gap-4"
-                        >
-                            <a
-                                href="#projects"
-                                className="px-10 py-5 bg-[#1b2d45] text-[#fdf8e3] rounded-[1.5rem] font-bold text-lg hover:opacity-90 transition-all duration-300 neo-brutal flex items-center gap-3 group"
-                            >
-                                View My Work
-                                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </a>
-                            <a
-                                href="/resume.pdf"
-                                download
-                                className="px-10 py-5 bg-white text-[#1b2d45] rounded-[1.5rem] font-bold text-lg hover:bg-[#f4efd8] transition-all duration-300 flex items-center gap-3 neo-brutal"
-                            >
-                                Resume
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </a>
-                        </motion.div>
-                    </div>
+        {/* Right Side - Code Editor */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="hidden md:flex justify-center parallax-layer-bg relative items-center"
+        >
+          <div className="relative z-10 w-full max-w-md">
+            {/* Code editor */}
+            <div className="glass-panel-glow rounded-2xl p-6 backdrop-blur-xl border border-[#E11D48]/30 shadow-2xl bg-[#0A0F2A]">
+              {/* Window controls */}
+              <div className="flex items-center gap-2 mb-6 pb-3 border-b border-slate-700">
+                <div className="w-3 h-3 rounded-full bg-[#E11D48]" />
+                <div className="w-3 h-3 rounded-full bg-[#EAB308]" />
+                <div className="w-3 h-3 rounded-full bg-[#22C55E]" />
+                <div className="ml-2 flex items-center gap-2">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.5 8L19 9L15 13L16 19L12 16L8 19L9 13L5 9L10.5 8L12 2Z" fill="#E11D48" />
+                  </svg>
+                  <span className="text-xs text-slate-500 font-mono">spider-sense.tsx</span>
                 </div>
+              </div>
+              
+              {/* Code lines */}
+              <div className="space-y-2 font-mono text-sm">
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-[#E11D48]">1</span>
+                  <span className="text-[#60A5FA]">const</span>
+                  <span className="text-[#EAB308]"> spiderSense</span>
+                  <span className="text-white"> = </span>
+                  <span className="text-[#EAB308]">active</span>
+                  <span className="text-white">;</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-[#E11D48]">2</span>
+                  <span className="text-[#60A5FA]">function</span>
+                  <span className="text-[#EAB308]"> WebSlinger</span>
+                  <span className="text-white">() {'{'}</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="flex items-center gap-3 pl-4"
+                >
+                  <span className="text-[#E11D48]">3</span>
+                  <span className="text-[#60A5FA]">return</span>
+                  <span className="text-white"> (</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="flex items-center gap-3 pl-8"
+                >
+                  <span className="text-[#E11D48]">4</span>
+                  <span className="text-white">{'<div className="web-swinging">'}</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.9 }}
+                  className="flex items-center gap-3 pl-12"
+                >
+                  <span className="text-[#E11D48]">5</span>
+                  <span className="text-white">Building awesome </span>
+                  <span className="text-[#EAB308] animate-pulse">websites</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.0 }}
+                  className="flex items-center gap-3 pl-8"
+                >
+                  <span className="text-[#E11D48]">6</span>
+                  <span className="text-white">{'</div>'}</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.1 }}
+                  className="flex items-center gap-3 pl-4"
+                >
+                  <span className="text-[#E11D48]">7</span>
+                  <span className="text-white"> );</span>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.2 }}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-[#E11D48]">8</span>
+                  <span className="text-white">{'}'}</span>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.3 }}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-[#E11D48]">9</span>
+                  <span className="text-white">WebSlinger</span>
+                  <span className="text-white">();</span>
+                </motion.div>
+
+                {/* Blinking cursor */}
+                <motion.div 
+                  className="flex items-center gap-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.4 }}
+                >
+                  <span className="text-[#E11D48]">10</span>
+                  <span className="w-2 h-4 bg-[#E11D48] animate-blink" />
+                </motion.div>
+              </div>
             </div>
 
-            {/* Floating Decorative Elements */}
-            <motion.div
-                animate={{ y: [0, 20, 0], rotate: [0, 10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-[10%] top-[20%] w-12 h-12 bg-white rounded-2xl neo-brutal hidden lg:block"
-            />
-            <motion.div
-                animate={{ y: [0, -20, 0], rotate: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-[15%] bottom-[15%] w-8 h-8 bg-[#1b2d45] rounded-lg neo-brutal hidden lg:block"
-            />
+            {/* Floating panels */}
+            <motion.div 
+              className="absolute -top-4 -right-4 glass-panel-glow px-3 py-2 rounded-lg text-xs font-mono z-20"
+              animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <div className="text-[#E11D48]">🕷️ SPIDER-SENSE</div>
+              <div className="text-white font-bold">TINGLING</div>
+            </motion.div>
+            
+            <motion.div 
+              className="absolute -bottom-4 -left-4 glass-panel px-3 py-2 rounded-lg text-xs font-mono z-20"
+              animate={{ y: [0, 8, 0], rotate: [0, -2, 0] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+            >
+              <div className="text-[#60A5FA]">WEB ACTIVE</div>
+              <div className="text-white font-bold">SWINGING</div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+      >
+        <span className="text-xs text-slate-500 font-mono tracking-widest">SWING DOWN</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-[#E11D48] to-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-[#E11D48] animate-scroll" />
+        </div>
+      </motion.div>
 
-            {/* Dark Mode Toggle */}
-        </section>
-    );
+      <style jsx>{`
+        @keyframes float {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-200px) translateX(${Math.random() * 100 - 50}px);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes scroll {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(200%); }
+        }
+        
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        
+        .animate-scroll {
+          animation: scroll 2s ease-in-out infinite;
+        }
+        
+        .animate-blink {
+          animation: blink 1s step-end infinite;
+        }
+      `}</style>
+    </section>
+  );
 };
 
 export default Hero;

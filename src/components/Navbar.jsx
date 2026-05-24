@@ -1,185 +1,257 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState('Home');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-
-      const sections = ['home', 'about', 'projects', 'achievements', 'contact'];
-      const current = sections.find(section => {
-        const el = document.getElementById(section);
-        if (!el) return false;
-        const rect = el.getBoundingClientRect();
-        return rect.top >= -100 && rect.top <= 300;
-      });
-
-      if (current) setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Close mobile menu first
-    setIsOpen(false);
-
-    const targetId = href.substring(1);
-    const element = document.getElementById(targetId);
-
-    if (element) {
-      // Small delay to allow menu to close on mobile
-      setTimeout(() => {
-        // Get navbar height for offset
-        const navbarHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementPosition - navbarHeight;
-
-        // Try smooth scroll with fallback for older browsers
-        try {
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        } catch (error) {
-          // Fallback for browsers that don't support smooth scrolling
-          window.scrollTo(0, offsetPosition);
-        }
-
-        // Update active section
-        setActiveSection(targetId);
-
-        // Update URL hash without jumping
-        if (window.history && window.history.pushState) {
-          window.history.pushState(null, '', href);
-        }
-      }, 100);
-    }
-  }; const navLinks = [
+  const navItems = [
     { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
+    { name: 'About', href: '#combined' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Achievements', href: '#achievements' },
     { name: 'Contact', href: '#contact' },
   ];
 
+  useEffect(() => {
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Hide/show navbar on scroll
+          if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down - hide navbar
+            setIsVisible(false);
+          } else {
+            // Scrolling up - show navbar
+            setIsVisible(true);
+          }
+          setLastScrollY(currentScrollY);
+          
+          // Update background opacity based on scroll
+          setScrolled(window.scrollY > 50);
+          
+          // Scroll spy logic
+          const sections = navItems.map(item => ({
+            id: item.href.substring(1),
+            element: document.getElementById(item.href.substring(1))
+          }));
+
+          let currentSection = '';
+          const scrollPosition = window.scrollY + 150;
+
+          for (const section of sections) {
+            if (section.element) {
+              const offsetTop = section.element.offsetTop;
+              const offsetBottom = offsetTop + section.element.offsetHeight;
+
+              if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+                currentSection = section.id;
+                break;
+              }
+            }
+          }
+
+          if (window.scrollY < 100) {
+            currentSection = 'home';
+          }
+
+          if (currentSection) {
+            const activeNavItem = navItems.find(item => item.href.substring(1) === currentSection);
+            if (activeNavItem) {
+              setActiveItem(activeNavItem.name);
+            }
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  const handleNavClick = (e, href, name) => {
+    e.preventDefault();
+    setActiveItem(name);
+    setMobileMenuOpen(false);
+    
+    const element = document.querySelector(href);
+    if (element) {
+      const offsetTop = element.offsetTop;
+      window.scrollTo({
+        top: offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled
-        ? 'bg-white/80/80 backdrop-blur-xl shadow-md border-b border-[#1b2d45]'
-        : 'bg-transparent'
+    <>
+      <motion.nav
+        initial={{ y: 0 }}
+        animate={{ 
+          y: isVisible ? 0 : -120,
+          transition: { duration: 0.4, ease: 'easeInOut' }
+        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled 
+            ? 'py-3 bg-[#020617]/90 backdrop-blur-xl border-b border-[#E11D48]/20 shadow-lg' 
+            : 'py-5 bg-transparent'
         }`}
-    >
-      <div className="w-full h-16 flex items-center justify-between px-6 sm:px-12 lg:px-16">
-        {/* Logo/Name - visible on mobile */}
-        <motion.a
-          href="#home"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-lg font-black tracking-tighter text-[#1b2d45] md:hidden"
-        >
-          Firas
-        </motion.a>
-
-        {/* Desktop Nav - centered */}
-        <div className="hidden md:flex items-center gap-2 mx-auto bg-white px-6 py-2 rounded-full neo-brutal-sm">
-          {navLinks.map((link, index) => (
-            <motion.a
-              key={link.name}
-              href={link.href}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`relative px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${activeSection === link.href.substring(1)
-                ? 'text-[#1b2d45]'
-                : 'text-[#2b4566] hover:text-[#1b2d45]'
-                }`}
-            >
-              {link.name}
-              {activeSection === link.href.substring(1) && (
-                <motion.span
-                  layoutId="activeTab"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1b2d45] rounded-full mx-3"
-                />
-              )}
-            </motion.a>
-          ))}
-
-          {/* Resume Button */}
-          <a
-            href="/resume.pdf"
-            download="Syed_Firas_Resume.pdf"
-            className="ml-4 px-6 py-2 rounded-full bg-[#1b2d45] text-[#fdf8e3] text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all neo-brutal-sm"
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+          {/* Logo */}
+          <motion.a 
+            href="#home" 
+            onClick={(e) => handleNavClick(e, '#home', 'Home')}
+            className="group relative flex items-center gap-2 cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Resume
-          </a>
-        </div>
+            <div className="relative">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L13.5 8L19 9L15 13L16 19L12 16L8 19L9 13L5 9L10.5 8L12 2Z" fill="#E11D48" stroke="#E11D48" strokeWidth="1" />
+                <circle cx="12" cy="11" r="2" fill="white" />
+              </svg>
+            </div>
+            <span className="text-xl font-display font-bold tracking-tight">
+              <span className="text-white">SYED</span>
+              <span className="text-[#E11D48]">.DEV</span>
+            </span>
+          </motion.a>
 
-        {/* Mobile Actions */}
-        <div className="flex items-center gap-4 md:hidden">
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 text-[#1b2d45]"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Dropdown Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden bg-white border-t-2 border-[#1b2d45] neo-brutal"
-          >
-            <div className="px-6 py-6 space-y-2">
-              {navLinks.map(link => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`block px-6 py-4 text-sm font-bold uppercase tracking-widest rounded-2xl transition-all ${activeSection === link.href.substring(1)
-                    ? 'bg-[#f4efd8] text-[#1b2d45]'
-                    : 'text-[#2b4566] hover:bg-[#f4efd8] hover:text-[#1b2d45]'
-                    }`}
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <div className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href, item.name)}
+                  className="relative px-4 py-2 text-sm font-medium rounded-md cursor-pointer"
+                  style={{ 
+                    color: activeItem === item.name ? '#E11D48' : '#94A3B8'
+                  }}
+                  whileHover={{ color: '#E11D48' }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {link.name}
-                </a>
+                  {activeItem === item.name && (
+                    <motion.div
+                      layoutId="navIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#E11D48]"
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 600, 
+                        damping: 30,
+                        mass: 0.5
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.name}</span>
+                </motion.a>
               ))}
-              <a
-                href="/resume.pdf"
-                download="Syed_Firas_Resume.pdf"
-                className="block px-6 py-4 text-sm font-bold uppercase tracking-widest rounded-2xl transition-all text-[#2b4566] hover:bg-[#f4efd8] hover:text-[#1b2d45]"
+            </div>
+
+            <motion.a 
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact', 'Contact')}
+              className="px-5 py-2 rounded-md text-sm font-medium text-white border border-[#E11D48] hover:bg-[#E11D48] transition-all duration-300 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              Hire Me
+            </motion.a>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <motion.button 
+            className="md:hidden text-slate-300 hover:text-white transition-colors relative z-50"
+            onClick={() => setMobileMenuOpen(true)}
+            whileTap={{ scale: 0.9 }}
+            transition={{ duration: 0.1 }}
+          >
+            <Menu size={28} />
+          </motion.button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence mode="wait">
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[60] bg-[#020617] backdrop-blur-xl flex flex-col items-center justify-center"
+          >
+            <motion.button 
+              className="absolute top-6 right-6 text-slate-400 hover:text-white transition-all"
+              onClick={() => setMobileMenuOpen(false)}
+              whileHover={{ rotate: 90 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+            >
+              <X size={32} />
+            </motion.button>
+            
+            <div className="flex flex-col items-center space-y-8 text-2xl font-display">
+              {navItems.map((item, i) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ delay: i * 0.1, duration: 0.3, type: "spring", stiffness: 300 }}
+                  onClick={(e) => handleNavClick(e, item.href, item.name)}
+                  className="relative group cursor-pointer"
+                >
+                  <span className={`text-slate-400 hover:text-white transition-colors duration-300 ${activeItem === item.name ? 'text-[#E11D48]' : ''}`}>
+                    {item.name}
+                  </span>
+                  {activeItem === item.name && (
+                    <motion.div 
+                      className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#E11D48]"
+                      layoutId="mobileIndicator"
+                      transition={{ type: "spring", stiffness: 600, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              ))}
+              <motion.a
+                href="#contact"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ delay: 0.4, duration: 0.3, type: "spring", stiffness: 300 }}
+                onClick={(e) => handleNavClick(e, '#contact', 'Contact')}
+                className="mt-8 px-8 py-3 rounded-md text-lg font-medium bg-[#E11D48] text-white hover:bg-[#ff2a5f] transition-all cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                Download Resume
-              </a>
+                Hire Me
+              </motion.a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 

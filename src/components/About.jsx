@@ -1,230 +1,203 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { FaReact, FaAngular, FaNodeJs, FaGithub, FaPython, FaJava } from 'react-icons/fa';
-import { SiIonic, SiJavascript, SiTypescript, SiMongodb, SiSupabase, SiTailwindcss, SiMysql, SiC, SiNextdotjs } from 'react-icons/si';
-
-const skillsData = [
-    { name: 'React Native', icon: FaReact, category: 'Tech Stack' },
-    { name: 'Ionic', icon: SiIonic, category: 'Tech Stack' },
-    { name: 'Angular', icon: FaAngular, category: 'Tech Stack' },
-    { name: 'React.js', icon: FaReact, category: 'Tech Stack' },
-    { name: 'Next.js', icon: SiNextdotjs, category: 'Tech Stack' },
-    { name: 'Node.js', icon: FaNodeJs, category: 'Tech Stack' },
-    { name: 'MongoDB', icon: SiMongodb, category: 'Tech Stack' },
-    { name: 'Git / GitHub', icon: FaGithub, category: 'Tech Stack' },
-    { name: 'Supabase', icon: SiSupabase, category: 'Tech Stack' },
-    { name: 'Tailwind CSS', icon: SiTailwindcss, category: 'Tech Stack' },
-    { name: 'JavaScript', icon: SiJavascript, category: 'Languages' },
-    { name: 'TypeScript', icon: SiTypescript, category: 'Languages' },
-    { name: 'Python', icon: FaPython, category: 'Languages' },
-    { name: 'Java', icon: FaJava, category: 'Languages' },
-    { name: 'C', icon: SiC, category: 'Languages' },
-    { name: 'MySql', icon: SiMysql, category: 'Languages' }
-];
-
-const internships = [
-    {
-        title: 'Web Development Internship',
-        company: 'My Job Grow & IIT Hyderabad',
-        role: 'Web Developer Intern',
-        date: '2025',
-        description: 'Completed internship in collaboration with E&N IIT Hyderabad, focusing on modern web technologies and full-stack integration.',
-        details: 'Worked on real-world projects, implementing responsive designs and integrating APIs. Collaborated with cross-functional teams to deliver high-quality web solutions.',
-        image: '/internship-iit.jpg',
-        color: 'bg-blue-50 text-[#00ebc7] border-blue-100',
-        achievement: 'Completed'
-    },
-    {
-        title: 'Frontend Internship',
-        company: 'iTecz Solutions',
-        role: 'Frontend Intern',
-        date: 'March 2025 - June 2025',
-        description: 'Developed scalable web applications using Ionic and Angular frameworks, focusing on component-driven architecture.',
-        details: 'Contributed to the development of a large-scale enterprise application. Optimized rendering performance and ensured cross-browser compatibility.',
-        image: '/internship-cert.jpg',
-        color: 'bg-cyan-50 text-cyan-600 border-cyan-100',
-        achievement: 'Completed'
-    },
-    {
-        title: 'Freelance Developer',
-        company: 'Self Employed',
-        role: 'Full Stack Developer',
-        date: '2024 - Present',
-        description: 'Delivering end-to-end web solutions using Ionic Angular, Next.js, and React.js. Key Projects:  Management System & Scalable Web Platforms.',
-        details: 'Managed entire project lifecycles from requirement gathering to deployment. Implemented modern UI/UX principles and ensured mobile responsiveness across all deliverables.',
-        image: '/freelance.jpg', // Placeholder, not used in About view but keeps structure consistent
-        color: 'bg-[#f4efd8] text-[#2b4566] border-[#1b2d45]',
-        achievement: 'Active'
-    },
-];
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const About = () => {
-    const [activeTab, setActiveTab] = useState('About Me');
-    const tabs = ['About Me', 'Experience', 'Skills'];
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-    const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
+  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [150, -150]);
 
-    // Parallax values
-    const yParallaxFast = useTransform(scrollYProgress, [0, 1], [100, -100]);
-    const yParallaxSlow = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  // Memoized particles for better performance
+  const particles = React.useMemo(() => {
+    return [...Array(20)].map((_, i) => ({ id: i }));
+  }, []);
 
-    return (
-        <section id="about" ref={containerRef} className="py-20 bg-white transition-colors duration-300 relative overflow-hidden">
-            {/* Parallax Background Decorations */}
-            <motion.div style={{ y: yParallaxSlow }} className="absolute -left-20 top-20 w-40 h-40 bg-[#f4efd8] rounded-full mix-blend-multiply -z-10 blur-xl" />
-            <motion.div style={{ y: yParallaxFast }} className="absolute -right-10 bottom-20 w-32 h-32 bg-[#f4efd8] rounded-full mix-blend-multiply -z-10 blur-xl" />
+  return (
+    <section id="about" ref={containerRef} className="py-32 relative overflow-hidden">
+      {/* Optimized Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0A0F2A] to-[#020617]">
+        {/* Static spider-web grid - fixed SVG syntax */}
+        <div className="absolute inset-0 opacity-10">
+          <div 
+            className="w-full h-full bg-repeat"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0 L40 80 M0 40 L80 40' stroke='%23E11D48' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Cpath d='M0 0 L80 80 M80 0 L0 80' stroke='%232563EB' stroke-width='0.3' fill='none' opacity='0.2'/%3E%3Ccircle cx='40' cy='40' r='2' fill='%23E11D48' opacity='0.5'/%3E%3C/svg%3E")`
+            }}
+          />
+        </div>
 
-            <div className="max-w-4xl mx-auto px-6 sm:px-12 lg:px-16">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 relative z-10">
-                        <motion.span
-                            style={{ y: useTransform(scrollYProgress, [0, 1], [20, -20]) }}
-                            className="text-2xl font-bold tracking-widest text-[#6b7280] uppercase block"
-                        >
-                            Profile
-                        </motion.span>
+        {/* Simplified gradient orbs - no animations for better performance */}
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-[#E11D48]/5 blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#2563EB]/5 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#E11D48]/3 blur-[80px]" />
 
-                        {/* Toggle Buttons */}
-                        <div className="flex gap-4 bg-white p-1.5 rounded-full w-max neo-brutal-sm">
-                            {tabs.map((tab) => (
-                                <button
-                                    key={tab}
-                                    onClick={() => setActiveTab(tab)}
-                                    className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === tab
-                                        ? 'bg-[#1b2d45] text-[#fdf8e3] neo-brutal-sm'
-                                        : 'text-[#2b4566] hover:text-[#1b2d45]'
-                                        }`}
-                                >
-                                    {tab}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+        {/* Floating particles - static positions with CSS animations */}
+        {particles.map((_, i) => (
+          <div
+            key={`particle-${i}`}
+            className="absolute w-0.5 h-0.5 bg-gradient-to-r from-[#E11D48] to-[#2563EB] rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `floatAbout ${3 + Math.random() * 4}s linear infinite`,
+              animationDelay: `${Math.random() * 5}s`,
+              opacity: 0,
+            }}
+          />
+        ))}
+      </div>
 
-                    <div className="min-h-[400px]">
-                        <AnimatePresence mode="wait">
-                            {activeTab === 'About Me' && (
-                                <motion.div
-                                    key="about"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: 20 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <h2 className="text-2xl md:text-3xl font-black text-[#1b2d45] mb-8 leading-relaxed">
-                                        I'm a <span className="text-[#6b7280]">passionate developer</span> focused on crafting <span className="text-[#6b7280]">intuitive</span> and <span className="text-[#6b7280]">engaging</span> digital experiences.
-                                    </h2>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <span className="h-[2px] w-12 bg-gradient-to-r from-[#E11D48] to-[#2563EB]" />
+            <span className="text-[#E11D48] font-mono tracking-widest text-sm uppercase">Subject Profile</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-display font-bold">
+            The <span className="text-gradient-blue">Identity.</span>
+          </h2>
+        </motion.div>
 
-                                    <div className="text-sm text-[#2b4566] leading-7 space-y-6 font-medium">
-                                        <p>
-                                            With a strong foundation in <strong className="text-[#1b2d45]">React Native</strong> and <strong className="text-[#1b2d45]">Modern Web Technologies</strong>, I bridge the gap between design and engineering. My goal is to build software that not only works perfectly but also feels amazing to use.
-                                        </p>
-                                        <p>
-                                            When I'm not coding, I'm exploring new design trends, contributing to open source, or learning the latest advancements in the mobile ecosystem. I believe in continuous learning and the power of clean, maintainable code.
-                                        </p>
-                                    </div>
+        <div className="grid md:grid-cols-2 gap-16 relative">
+          {/* Left Column: Text */}
+          <motion.div style={{ y: y1 }} className="space-y-8 z-10">
+            <div className="glass-panel-glow p-8 rounded-2xl relative overflow-hidden group">
+              {/* Subtle background spider-web accent */}
+              <div className="absolute -bottom-20 -right-20 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+                <svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 0V100M0 50H100M14.6447 14.6447L85.3553 85.3553M14.6447 85.3553L85.3553 14.6447" stroke="currentColor" strokeWidth="2"/>
+                  <circle cx="50" cy="50" r="25" stroke="currentColor" strokeWidth="2"/>
+                  <circle cx="50" cy="50" r="50" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
 
-                                    <div className="mt-12 flex flex-wrap items-center gap-8">
-                                        <div>
-                                            <h3 className="text-2xl font-black text-[#1b2d45]">1+</h3>
-                                            <p className="text-[10px] uppercase tracking-widest text-[#2b4566] font-bold mt-1">Years Exp.</p>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-2xl font-black text-[#1b2d45]">15+</h3>
-                                            <p className="text-[10px] uppercase tracking-widest text-[#2b4566] font-bold mt-1">Projects</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
+              <p className="text-lg text-slate-300 leading-relaxed font-light mb-6">
+                I am a UI/UX Designer and Frontend Architect specializing in <strong className="text-white font-medium">cinematic storytelling</strong> and <strong className="text-white font-medium">performance-driven</strong> web applications. 
+              </p>
+              <p className="text-lg text-slate-300 leading-relaxed font-light mb-6">
+                My work exists at the intersection of dark luxury aesthetics and cutting-edge web technology, creating digital experiences that feel less like websites and more like interactive cinema.
+              </p>
+              
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-800">
+                <div className="w-10 h-10 rounded-full bg-[#E11D48]/10 flex items-center justify-center border border-[#E11D48]/30 text-[#E11D48]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <span className="font-mono text-sm text-[#60A5FA]">SECURITY CLEARANCE: LEVEL 9</span>
+              </div>
+            </div>
+          </motion.div>
 
-                            {activeTab === 'Experience' && (
-                                <motion.div
-                                    key="experience"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="space-y-8"
-                                >
-                                    {internships.map((job, index) => (
-                                        <div key={index} className="relative pl-8 border-l-2 border-[#1b2d45] pb-2 last:pb-0">
-                                            <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-4 border-white ${activeTab === 'Experience' ? 'bg-[#1b2d45]' : 'bg-[#f4efd8]'}`}></div>
+          {/* Right Column: Photo + Stats */}
+          <motion.div style={{ y: y2 }} className="flex flex-col gap-6 z-10">
+            {/* Photo Frame */}
+            <div className="relative mx-auto w-64 h-64 md:w-72 md:h-72">
+              {/* Spinning ring decorations - using CSS animations */}
+              <div className="absolute inset-0 rounded-full border border-[#E11D48]/30 animate-spin-slow" />
+              <div className="absolute inset-3 rounded-full border border-[#2563EB]/20 animate-spin-reverse-slow" />
 
-                                            <div className="bg-white p-6 rounded-2xl neo-brutal">
-                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                                                    <div>
-                                                        <h3 className="text-lg font-black text-[#1b2d45]">{job.title}</h3>
-                                                        <p className="text-xs font-bold text-[#6b7280] uppercase tracking-wider mt-1">{job.company}</p>
-                                                    </div>
-                                                    <span className="px-3 py-1 rounded-full bg-[#1b2d45] text-[#fdf8e3] text-[10px] font-bold uppercase tracking-widest w-max neo-brutal-sm">
-                                                        {job.date}
-                                                    </span>
-                                                </div>
-                                                <p className="text-sm text-[#2b4566] font-medium leading-relaxed">
-                                                    {job.description}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </motion.div>
-                            )}
+              {/* Glowing background behind photo */}
+              <div className="absolute inset-4 rounded-full bg-[#E11D48]/10 blur-2xl" />
 
-                            {activeTab === 'Skills' && (
-                                <motion.div
-                                    key="skills"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="space-y-12"
-                                >
-                                    <div>
-                                        <h3 className="text-xl font-black text-[#1b2d45] mb-6 flex items-center gap-3">
-                                            <div className="w-3 h-3 rounded-full bg-[#ff5470] border-2 border-[#1b2d45]"></div>
-                                            Tech Stack
-                                        </h3>
-                                        <div className="flex flex-wrap gap-4">
-                                            {skillsData.filter(s => s.category === 'Tech Stack').map((skill) => (
-                                                <div key={skill.name} className="px-5 py-3 rounded-2xl bg-white text-[#1b2d45] font-bold text-sm flex items-center gap-3 neo-brutal-sm hover:-translate-y-1 transition-transform cursor-pointer">
-                                                    <skill.icon className="w-5 h-5 text-[#ff5470]" />
-                                                    {skill.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+              {/* Photo */}
+              <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-[#E11D48]/50 shadow-[0_0_30px_rgba(225,29,72,0.3)]">
+                <img
+                  src="/logo.png"
+                  alt="Syed Firas"
+                  className="w-full h-full object-cover object-top scale-110"
+                />
+              </div>
 
-                                    <div>
-                                        <h3 className="text-xl font-black text-[#1b2d45] mb-6 flex items-center gap-3">
-                                            <div className="w-3 h-3 rounded-full bg-[#00ebc7] border-2 border-[#1b2d45]"></div>
-                                            Languages
-                                        </h3>
-                                        <div className="flex flex-wrap gap-4">
-                                            {skillsData.filter(s => s.category === 'Languages').map((skill) => (
-                                                <div key={skill.name} className="px-5 py-3 rounded-2xl bg-white text-[#1b2d45] font-bold text-sm flex items-center gap-3 neo-brutal-sm hover:-translate-y-1 transition-transform cursor-pointer">
-                                                    <skill.icon className="w-5 h-5 text-[#00ebc7]" />
-                                                    {skill.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </motion.div>
-            </div >
-        </section >
-    );
+              {/* HUD corner accents */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 px-3 py-0.5 bg-[#020617]/90 backdrop-blur-sm border border-[#E11D48]/50 text-[#E11D48] font-mono text-[10px] tracking-widest rounded whitespace-nowrap">
+                SYED FIRAS
+              </div>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 px-3 py-0.5 bg-[#020617]/90 backdrop-blur-sm border border-[#60A5FA]/40 text-[#60A5FA] font-mono text-[10px] tracking-widest rounded whitespace-nowrap">
+                DEV — ACTIVE
+              </div>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="glass-panel p-5 rounded-2xl border-t border-[#60A5FA]/30 hover:border-[#E11D48]/50 transition-all duration-300 group hover:transform hover:-translate-y-1">
+                <div className="text-3xl font-display font-bold text-white mb-1 group-hover:text-[#E11D48] transition-colors">2+</div>
+                <div className="text-xs text-slate-400 font-mono">YEARS ACTIVE</div>
+              </div>
+
+              <div className="glass-panel p-5 rounded-2xl border-t border-[#60A5FA]/30 hover:border-[#E11D48]/50 transition-all duration-300 group translate-y-4 hover:transform hover:-translate-y-1">
+                <div className="text-3xl font-display font-bold text-white mb-1 group-hover:text-[#E11D48] transition-colors">20+</div>
+                <div className="text-xs text-slate-400 font-mono">MISSIONS</div>
+              </div>
+
+              <div className="glass-panel p-5 rounded-2xl border-t border-[#60A5FA]/30 hover:border-[#E11D48]/50 transition-all duration-300 group hover:transform hover:-translate-y-1">
+                <div className="text-3xl font-display font-bold text-white mb-1 group-hover:text-[#E11D48] transition-colors">100%</div>
+                <div className="text-xs text-slate-400 font-mono">SUCCESS RATE</div>
+              </div>
+
+              <div className="glass-panel p-5 rounded-2xl border-t border-[#60A5FA]/30 hover:border-[#E11D48]/50 transition-all duration-300 group translate-y-4 hover:transform hover:-translate-y-1">
+                <div className="text-3xl font-display font-bold text-white mb-1 group-hover:text-[#E11D48] transition-colors">4</div>
+                <div className="text-xs text-slate-400 font-mono">INTERNSHIPS</div>
+              </div>
+            </div>
+
+            {/* Spider quote */}
+            <div className="glass-panel p-4 rounded-xl text-center mt-2">
+              <p className="text-xs font-mono text-slate-400 italic">
+                "With great power comes great responsibility." 
+                <span className="block text-[#E11D48] text-[10px] mt-1">— Uncle Ben</span>
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Add CSS animations */}
+      <style jsx>{`
+        @keyframes floatAbout {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-150px) translateX(${Math.random() * 80 - 40}px);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        @keyframes spin-reverse-slow {
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
+        }
+        
+        .animate-spin-slow {
+          animation: spin-slow 12s linear infinite;
+        }
+        
+        .animate-spin-reverse-slow {
+          animation: spin-reverse-slow 18s linear infinite;
+        }
+      `}</style>
+    </section>
+  );
 };
 
 export default About;
