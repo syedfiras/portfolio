@@ -174,7 +174,7 @@ const CombinedSection = () => {
                     <div className="absolute inset-4 rounded-full bg-[#E11D48]/10 blur-2xl" />
                     <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-[#E11D48]/50 shadow-[0_0_30px_rgba(225,29,72,0.3)]">
                       <img
-                        src="/your-photo.jpg"
+                        src="/logo.png"
                         alt="Syed Firas"
                         className="w-full h-full object-cover object-top scale-110"
                       />
